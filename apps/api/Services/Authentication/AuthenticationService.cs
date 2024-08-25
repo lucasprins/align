@@ -20,7 +20,6 @@ public class AuthenticationService(SignInManager<User> signInManager, UserManage
     public async Task Logout(HttpContext httpContext)
     {
         await _signInManager.SignOutAsync();
-        // await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
     public async Task Register(RegisterRequest registerRequest)

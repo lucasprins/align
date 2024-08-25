@@ -1,6 +1,6 @@
 namespace Tenet.Models;
 
-public class CreateWorkspaceDTO
+public class WorkspaceCreateDTO
 {
     public required string Name { get; set; }
     public required string Url { get; set; }
