@@ -12,7 +12,7 @@ using Tenet.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240824141316_Initial")]
+    [Migration("20240825090456_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -254,6 +254,21 @@ namespace api.Migrations
                     b.ToTable("Workspaces");
                 });
 
+            modelBuilder.Entity("UserWorkspace", b =>
+                {
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WorkspacesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UsersId", "WorkspacesId");
+
+                    b.HasIndex("WorkspacesId");
+
+                    b.ToTable("UserWorkspace");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -301,6 +316,21 @@ namespace api.Migrations
                     b.HasOne("Tenet.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserWorkspace", b =>
+                {
+                    b.HasOne("Tenet.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tenet.Models.Workspace", null)
+                        .WithMany()
+                        .HasForeignKey("WorkspacesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

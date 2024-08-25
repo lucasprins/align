@@ -9,7 +9,7 @@ public class AuthenticationService(SignInManager<User> signInManager, UserManage
     private readonly UserManager<User> _userManager = userManager;
     private readonly IUserStore<User> _userStore = userStore;
 
-    public async Task<bool> Login(LoginRequest loginRequest)
+    public async Task<bool> Login(LoginRequestDTO loginRequest)
     {
         var result = await _signInManager.PasswordSignInAsync(loginRequest.Email, loginRequest.Password, Constants.USE_PERSISTENT_SESSION, true);
         return result.Succeeded;
@@ -20,7 +20,7 @@ public class AuthenticationService(SignInManager<User> signInManager, UserManage
         await _signInManager.SignOutAsync();
     }
 
-    public async Task Register(RegisterRequest registerRequest)
+    public async Task Register(RegisterRequestDTO registerRequest)
     {
         string email = registerRequest.Email;
 

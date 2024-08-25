@@ -2,13 +2,24 @@ global using Microsoft.EntityFrameworkCore;
 
 global using Tenet;
 global using Tenet.Data;
+global using Tenet.Enums;
 global using Tenet.Interfaces;
 global using Tenet.Models;
-global using Tenet.Utils;
+global using Tenet.Services;
+
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddAuthorization();
 
 builder.SetupDatabase();

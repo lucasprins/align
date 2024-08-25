@@ -10,9 +10,10 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@tenet/core": "workspace:^",
     "@tenet/core-react": "workspace:^",
-    "@faker-js/faker": "^8.4.1",
+    "@tenet/types": "workspace:^",
     "date-fns": "^3.6.0",
     "immutable": "^5.0.0-beta.5",
     "react": "^18.3.1",

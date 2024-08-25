@@ -19,14 +19,14 @@ namespace Tenet.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        public async Task<IActionResult> Login(LoginRequestDTO loginRequest)
         {
             var result = await authenticationService.Login(loginRequest);
             return result ? Ok() : Unauthorized();
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest registerRequest)
+        public async Task<IActionResult> Register(RegisterRequestDTO registerRequest)
         {
             try
             {

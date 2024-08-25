@@ -2,7 +2,7 @@ namespace Tenet.Services;
 
 public interface IAuthenticationService
 {
-    Task<bool> Login(LoginRequest loginRequest);
+    Task<bool> Login(LoginRequestDTO loginRequest);
     Task Logout();
-    Task Register(RegisterRequest registerRequest);
+    Task Register(RegisterRequestDTO registerRequest);
 }

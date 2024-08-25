@@ -6,27 +6,14 @@ namespace Tenet.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkspaceController : ControllerBase
+    public class WorkspaceController(IWorkspaceService workspaceService) : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IWorkspaceService _workspaceService = workspaceService;
 
-        public WorkspaceController(DatabaseContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Workspace
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Workspace>>> GetWorkspaces()
-        {
-            return await _context.Workspaces.ToListAsync();
-        }
-
-        // GET: api/Workspace/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Workspace>> GetWorkspace(Guid id)
+        public async Task<ActionResult<WorkspaceDTO>> GetWorkspace(Guid id)
         {
-            var workspace = await _context.Workspaces.FindAsync(id);
+            var workspace = await _workspaceService.Get(id);
 
             if (workspace == null)
             {
@@ -36,75 +23,104 @@ namespace Tenet.Controllers
             return workspace;
         }
 
+        [HttpGet("isUrlAvailable")]
+        public async Task<ActionResult<bool>> IsUrlAvailable(string url)
+        {
+            return await _workspaceService.IsUrlAvailable(url);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CreateWorkspaceResult>> CreateWorkspace([FromBody] CreateWorkspaceDTO createWorkspaceDTO)
+        {
+            return await _workspaceService.Create(createWorkspaceDTO);
+        }
+
+        // [HttpGet("test")]
+        // public async Task<ActionResult<IEnumerable<Workspace>>> Test()
+        // {
+        //     var user = _context.Users.FirstOrDefault();
+
+        //     if (user != null)
+        //     {
+        //         var workspace = new Workspace()
+        //         {
+        //             Id = Guid.NewGuid(),
+        //             Name = "Test",
+        //             Url = "lucasprins"
+        //         };
+
+        //         workspace.Users.Add(user);
+        //         _context.Workspaces.Add(workspace);
+        //         await _context.SaveChangesAsync();
+        //     }
+
+        //     return await _context.Workspaces.ToListAsync();
+        // }
+
         // PUT: api/Workspace/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkspace(Guid id, Workspace workspace)
-        {
-            if (id != workspace.Id)
-            {
-                return BadRequest();
-            }
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutWorkspace(Guid id, Workspace workspace)
+        // {
+        //     if (id != workspace.Id)
+        //     {
+        //         return BadRequest();
+        //     }
 
-            _context.Entry(workspace).State = EntityState.Modified;
+        //     _context.Entry(workspace).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkspaceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!WorkspaceExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
 
-            return NoContent();
-        }
+        //     return NoContent();
+        // }
 
         // POST: api/Workspace
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Workspace>> PostWorkspace(WorkspaceCreateDTO workspace)
-        {
-            Workspace newWorkspace = new()
-            {
-                Id = Guid.NewGuid(),
-                Name = workspace.Name,
-                Url = workspace.Url,
-                LogoUrl = workspace.LogoUrl
-            };
+        // [HttpPost]
+        // public async Task<ActionResult<Workspace>> PostWorkspace(WorkspaceCreateDTO workspace)
+        // {
+        //     Workspace newWorkspace = new()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         Name = workspace.Name,
+        //         Url = workspace.Url,
+        //         LogoUrl = workspace.LogoUrl
+        //     };
 
-            _context.Workspaces.Add(newWorkspace);
-            await _context.SaveChangesAsync();
+        //     _context.Workspaces.Add(newWorkspace);
+        //     await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetWorkspace), new { id = newWorkspace.Id }, workspace);
-        }
+        //     return CreatedAtAction(nameof(GetWorkspace), new { id = newWorkspace.Id }, workspace);
+        // }
 
         // DELETE: api/Workspace/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkspace(Guid id)
-        {
-            var workspace = await _context.Workspaces.FindAsync(id);
-            if (workspace == null)
-            {
-                return NotFound();
-            }
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteWorkspace(Guid id)
+        // {
+        //     var workspace = await _context.Workspaces.FindAsync(id);
+        //     if (workspace == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            _context.Workspaces.Remove(workspace);
-            await _context.SaveChangesAsync();
+        //     _context.Workspaces.Remove(workspace);
+        //     await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool WorkspaceExists(Guid id)
-        {
-            return _context.Workspaces.Any(e => e.Id == id);
-        }
+        //     return NoContent();
+        // }
     }
 }

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Tenet.Services;
 
 namespace Tenet;
 
@@ -20,7 +19,11 @@ public static class ApplicationSetupExtensions
 
     public static void SetupServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddTransient<IWorkspaceRepository, WorkspaceRepository>();
+
         builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddTransient<IValidationService, ValidationService>();
+        builder.Services.AddTransient<IWorkspaceService, WorkspaceService>();
     }
 
     public static void SetupAuthentication(this WebApplicationBuilder builder)

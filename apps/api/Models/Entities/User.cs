@@ -11,4 +11,6 @@ public class User : IdentityUser<Guid>
 
     [PersonalData]
     public string? FullName { get; set; }
+
+    public ICollection<Workspace> Workspaces { get; set; } = [];
 }
