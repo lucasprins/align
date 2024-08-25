@@ -7,9 +7,9 @@ namespace Tenet.Controllers
 {
     [Route("auth")]
     [ApiController]
-    public class AuthenticationController(Services.IAuthenticationService authenticationService) : ControllerBase
+    public class AuthenticationController(IAuthenticationService authenticationService) : ControllerBase
     {
-        private readonly Services.IAuthenticationService authenticationService = authenticationService;
+        private readonly IAuthenticationService authenticationService = authenticationService;
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromBody] object _)
