@@ -1,4 +1,4 @@
-namespace Tenet;
+namespace Tenet.Utils;
 
 public static class Constants
 {

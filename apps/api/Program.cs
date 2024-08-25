@@ -1,11 +1,12 @@
 global using Microsoft.EntityFrameworkCore;
 
-global using Tenet;
 global using Tenet.Data;
 global using Tenet.Enums;
+global using Tenet.Extensions;
 global using Tenet.Interfaces;
 global using Tenet.Models;
 global using Tenet.Services;
+global using Tenet.Utils;
 
 using System.Text.Json.Serialization;
 
@@ -22,10 +23,11 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-builder.SetupDatabase();
-builder.SetupOptions();
-builder.SetupServices();
-builder.SetupAuthentication();
+builder.Services
+    .AddConfig(builder.Configuration)
+    .AddDatabase(builder.Configuration)
+    .AddAuth()
+    .AddServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
