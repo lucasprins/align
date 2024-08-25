@@ -14,7 +14,7 @@ namespace Tenet.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromBody] object _)
         {
-            await authenticationService.Logout(HttpContext);
+            await authenticationService.Logout();
             return Ok();
         }
 

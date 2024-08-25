@@ -26,7 +26,7 @@ public static class ApplicationSetupExtensions
     public static void SetupAuthentication(this WebApplicationBuilder builder)
     {
         builder.Services
-            .AddIdentity<User, IdentityRole<Guid>>(options =>
+            .AddIdentityApiEndpoints<User>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;

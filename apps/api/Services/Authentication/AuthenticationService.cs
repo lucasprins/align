@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
 namespace Tenet.Services;
@@ -17,7 +15,7 @@ public class AuthenticationService(SignInManager<User> signInManager, UserManage
         return result.Succeeded;
     }
 
-    public async Task Logout(HttpContext httpContext)
+    public async Task Logout()
     {
         await _signInManager.SignOutAsync();
     }
