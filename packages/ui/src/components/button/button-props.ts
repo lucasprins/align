@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import { IconComponentProps } from '../../icons'
-import { SlottableComponent } from '../../types'
+import { IconComponentProps, SlottableComponent } from '../../types'
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

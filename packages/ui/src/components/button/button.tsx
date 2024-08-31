@@ -3,8 +3,8 @@ import clsx from 'clsx'
 import * as React from 'react'
 
 import { ButtonProps } from './button-props'
-import { IconComponentProps } from '../../icons'
-import { IconSpinner } from '../../icons/icons'
+import { IconSpinner } from '../../icons'
+import { IconComponentProps } from '../../types'
 
 import './button.css'
 

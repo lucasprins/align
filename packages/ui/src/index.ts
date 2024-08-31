@@ -14,3 +14,5 @@ export * from './components/strong'
 export * from './components/switch'
 export * from './components/text'
 export * from './components/text-link'
+
+export * from './icons'

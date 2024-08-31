@@ -1,1 +1,2 @@
-export interface IconComponentProps extends Omit<React.ComponentProps<'svg'>, 'viewBox'> {}
+export * from './line'
+export * from './misc'

@@ -1,4 +1,4 @@
-import { IconComponentProps } from '../../icons'
+import { IconComponentProps } from '../../types'
 
 export interface IconProps extends IconComponentProps {
   component: React.ElementType<IconComponentProps>
