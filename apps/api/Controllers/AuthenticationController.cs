@@ -18,6 +18,7 @@ namespace Align.Controllers
             return Ok();
         }
 
+        // TODO : Return the user when succesful? otherwise there will be two subsequent api calls for the same thing.
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDTO loginRequest)
         {
@@ -25,7 +26,8 @@ namespace Align.Controllers
             return result ? Ok() : Unauthorized();
         }
 
-        // TODO : Refactor using RegisterResult model with validation errors instead of exceptions
+        // TODO : Refactor using RegisterResult model with validation errors instead of exceptions, also return the user if
+        // its succesful
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDTO registerRequest)
         {

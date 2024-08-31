@@ -4,11 +4,9 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
     "dotnet": "cd ./apps/api && dotnet run --launch-profile https",
-    "dotnet:test": "cd ./__tests/api && dotnet test"
+    "dotnet:test": "cd ./__tests/api && dotnet test",
+    "docker:up": "docker compose up"
   },
   "devDependencies": {
     "turbo": "latest"

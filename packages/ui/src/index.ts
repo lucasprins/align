@@ -1,5 +1,8 @@
 import './index.css'
 
+import './fonts/InterVariable.woff2'
+import './fonts/InterVariable-Italic.woff2'
+
 export * from './types'
 
 export * from './components/button'
