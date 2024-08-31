@@ -1,6 +1,4 @@
-import './App.css'
-
-import { Link, useRouter } from '@tenet/core-react'
+import { Link, useRouter } from '@align/core-react'
 import React from 'react'
 
 import { Authentication } from '@domains/authentication/authentication.domain'
@@ -23,6 +21,16 @@ const App = () => {
 
   console.log(states[0][0], states[1][0])
 
+  React.useEffect(() => {
+    fetch('https://localhost:7208/api/user', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((data) => data.json().then((body) => console.log(body)))
+  }, [])
+
   // React.useEffect(() => {
   //   const handler = (e: FocusEvent) => {
   //     console.log('focussing')
@@ -42,7 +50,7 @@ const App = () => {
   // }, [authentication, setAuthentication])
 
   return (
-    <div className="content">
+    <div>
       <h1>Rsbuild with React</h1>
       <p>Start building amazing things with Rsbuild.</p>
 

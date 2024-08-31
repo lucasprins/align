@@ -1,0 +1,23 @@
+.Heading {
+  font-weight: var(--text-weight-semibold);
+  color: var(--color-gray-950);
+}
+
+.Heading--1 {
+  font-size: var(--text-size-xl);
+  line-height: var(--text-lineHeight-xl);
+}
+
+.Heading--2 {
+  font-size: var(--text-size-lg);
+  line-height: var(--text-lineHeight-lg);
+}
+
+.Heading--3 {
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+}
+
+[data-theme='dark'] .Heading {
+  color: var(--color-white);
+}

@@ -1,4 +1,4 @@
-namespace Tenet.Models;
+namespace Align.Models;
 
 public class FrontendOptions
 {

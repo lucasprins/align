@@ -1,0 +1,15 @@
+.Label {
+  user-select: none;
+  color: var(--color-gray-950);
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  font-weight: var(--text-weight-medium);
+}
+
+.Label:disabled {
+  opacity: 50%;
+}
+
+[data-theme='dark'] .Label {
+  color: var(--color-white);
+}

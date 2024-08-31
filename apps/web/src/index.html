@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <script>
+      // Inlined in the head to avoid Flash Of Unstyled Content (FOUC)
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.setAttribute('data-theme', 'dark')
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light')
+      }
+    </script>
+  </head>
+  <body>
+    <div id="<%= mountId %>"></div>
+  </body>
+</html>

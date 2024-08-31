@@ -1,4 +1,4 @@
-import { BasicUpdater, unit, Unit } from '@tenet/core'
+import { BasicUpdater, unit, Unit } from '@align/core'
 
 export type View<Context, State, ForeignMutations, EmbeddedChildren = Unit> = (
   props: TemplateProps<Context, State, ForeignMutations> & EmbeddedChildren

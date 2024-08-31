@@ -1,0 +1,50 @@
+.SwitchRoot {
+  position: relative;
+  height: 20px;
+  width: 32px;
+  background-color: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 0 1px var(--color-black-A1);
+  transition-property: var(--transition-colors);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--transition-duration-200);
+}
+
+.SwitchRoot:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+.SwitchRoot[data-state='checked'] {
+  background-color: var(--color-gray-950);
+}
+
+.SwitchThumb {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+  transform: translateX(3px);
+  transition: transform 250ms;
+}
+
+.SwitchThumb[data-state='unchecked'] {
+  box-shadow: var(--shadow);
+}
+
+.SwitchThumb[data-state='checked'] {
+  transform: translateX(15px);
+}
+
+[data-theme='dark'] .SwitchRoot {
+  background-color: var(--color-white-A1);
+  box-shadow: inset 0 0 0 1px var(--color-white-A3);
+}
+
+[data-theme='dark'] .SwitchRoot[data-state='checked'] {
+  background-color: var(--color-gray-600);
+  box-shadow: inset 0 0 0 1px var(--color-transparent);
+}

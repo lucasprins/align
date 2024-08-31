@@ -1,4 +1,4 @@
-import { BasicFunc, BasicUpdater, Unit, unit, Updater } from '@tenet/core'
+import { BasicFunc, BasicUpdater, Unit, unit, Updater } from '@align/core'
 import React from 'react'
 
 import { Template, TemplateWithViewProps } from '../domain/template'

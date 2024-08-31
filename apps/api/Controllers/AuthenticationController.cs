@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Tenet.Controllers
+namespace Align.Controllers
 {
     [Route("auth")]
     [ApiController]
@@ -25,6 +25,7 @@ namespace Tenet.Controllers
             return result ? Ok() : Unauthorized();
         }
 
+        // TODO : Refactor using RegisterResult model with validation errors instead of exceptions
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDTO registerRequest)
         {

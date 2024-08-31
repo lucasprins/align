@@ -1,4 +1,4 @@
-namespace Tenet.Data;
+namespace Align.Data;
 
 public interface IWorkspaceRepository
 {

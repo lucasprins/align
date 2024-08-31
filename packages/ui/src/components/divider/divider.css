@@ -1,0 +1,17 @@
+.Divider {
+  background-color: var(--color-gray-200);
+}
+
+[data-theme='dark'] .Divider {
+  background-color: var(--color-white-A2);
+}
+
+.Divider[data-orientation='horizontal'] {
+  height: 1px;
+  width: 100%;
+}
+
+.Divider[data-orientation='vertical'] {
+  height: 100%;
+  width: 1px;
+}

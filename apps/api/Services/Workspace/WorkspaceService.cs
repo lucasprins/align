@@ -1,4 +1,4 @@
-namespace Tenet.Services;
+namespace Align.Services;
 
 public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, IValidationService validationService) : IWorkspaceService
 {

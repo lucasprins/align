@@ -1,0 +1,88 @@
+/* Wrapper used for inner border on focus */
+.InputRoot {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.InputRoot::before {
+  position: absolute;
+  inset: 1px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow);
+}
+
+.InputRoot::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+}
+
+.InputRoot:focus-within::after {
+  box-shadow: inset 0 0 0 2px var(--color-accent-500);
+}
+
+.InputRoot:has(:disabled) {
+  opacity: 50%;
+}
+
+/* Input */
+.Input {
+  --input-border: var(--color-gray-200);
+  --input-bg: var(--color-transparent);
+  --input-color: var(--color-gray-950);
+
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-color);
+
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 36px;
+  appearance: none;
+  border-radius: var(--radius-lg);
+  padding: 0 11px;
+  font-size: var(--text-size-sm);
+}
+
+.Input::placeholder {
+  color: var(--color-gray-500);
+}
+
+.Input:focus {
+  outline: none;
+}
+
+.Input:hover {
+  --input-border: var(--color-gray-300);
+}
+
+.Input:disabled {
+  pointer-events: none;
+}
+
+[data-theme='dark'] .Input:disabled {
+  --input-bg: rgba(255, 255, 255, 0.025);
+}
+
+.Input[data-invalid] {
+  border: 1px solid var(--color-critical-500);
+}
+
+[data-theme='dark'] .Input::before {
+  display: none;
+}
+
+[data-theme='dark'] .Input {
+  --input-border: var(--color-white-A2);
+  --input-bg: var(--color-white-A1);
+  --input-color: var(--color-white);
+}
+
+[data-theme='dark'] .Input:hover {
+  --input-border: var(--color-white-A4);
+}

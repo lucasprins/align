@@ -1,4 +1,4 @@
-namespace Tenet.Enums;
+namespace Align.Enums;
 
 public enum WorkspaceValidationError
 {

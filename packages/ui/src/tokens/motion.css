@@ -1,0 +1,6 @@
+:root {
+  --transition-duration-0: 0s;
+  --transition-duration-200: 200ms;
+
+  --transition-colors: color, background-color, border-color, text-decoration-color, fill, stroke; /* use with transition-property */
+}

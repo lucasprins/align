@@ -1,0 +1,8 @@
+.Text {
+  font-size: var(--text-size-sm);
+  color: var(--color-gray-500);
+}
+
+[data-theme='dark'] .Text {
+  color: var(--color-gray-400);
+}

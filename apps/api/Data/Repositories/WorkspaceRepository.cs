@@ -1,5 +1,5 @@
 
-namespace Tenet.Data;
+namespace Align.Data;
 
 public class WorkspaceRepository(DatabaseContext databaseContext) : IWorkspaceRepository
 {

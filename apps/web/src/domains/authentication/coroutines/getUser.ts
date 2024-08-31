@@ -1,4 +1,4 @@
-import { Unit } from '@tenet/core'
+import { Unit } from '@align/core'
 
 import { Query } from '../../../lib/query'
 import { AuthenticationAPI } from '../authentication.api'

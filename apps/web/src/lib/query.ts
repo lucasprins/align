@@ -1,5 +1,5 @@
-import { ApiResultStatus, AsyncState, BasicUpdater, id, Unit, Updater } from '@tenet/core'
-import { Coroutine, CoTypedFactory } from '@tenet/core-react'
+import { ApiResultStatus, AsyncState, BasicUpdater, id, Unit, Updater } from '@align/core'
+import { Coroutine, CoTypedFactory } from '@align/core-react'
 
 export type Queryable<Payload, Response> = { payload: Payload; response: AsyncState<Response> }
 

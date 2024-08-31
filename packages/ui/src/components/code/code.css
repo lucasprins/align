@@ -1,0 +1,21 @@
+.Code {
+  --code-border: var(--color-gray-300);
+  --code-color: var(--color-gray-950);
+  --code-bg: var(--color-gray-100);
+
+  border: 1px solid var(--code-border);
+  background-color: var(--code-bg);
+  color: var(--code-color);
+  padding: 0 var(--spacing-1);
+
+  border-radius: var(--radius-default);
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  font-weight: var(--text-weight-medium);
+}
+
+[data-theme='dark'] .Code {
+  --code-bg: var(--color-white-A1);
+  --code-border: var(--color-white-A4);
+  --code-color: var(--color-white);
+}

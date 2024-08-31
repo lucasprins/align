@@ -14,5 +14,6 @@ export * from './functors/maybe/render-maybe'
 // `router`
 export * from './router/Link'
 export * from './router/Route'
+export * from './router/Redirect'
 export * from './router/RouterContext'
 export * from './router/useRouter'

@@ -1,5 +1,5 @@
 {
-  "name": "@tenet/core-react",
+  "name": "@align/core-react",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -21,6 +21,6 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@tenet/core": "workspace:^"
+    "@align/core": "workspace:^"
   }
 }

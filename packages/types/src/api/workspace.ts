@@ -1,4 +1,7 @@
+import { Guid } from './index'
+
 export type Workspace = {
+  id: Guid
   name: string
   url: string
   logoUrl?: string
@@ -15,3 +18,5 @@ export type CreateWorkspaceResult =
       isSuccess: false
       validationError: WorkspaceValidationError
     }
+
+export type WorkspaceMemberRole = 'Guest' | 'Member' | 'Admin'

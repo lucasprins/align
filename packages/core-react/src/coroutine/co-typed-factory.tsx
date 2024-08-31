@@ -1,4 +1,4 @@
-import { BasicFunc, BasicUpdater, Unit } from '@tenet/core'
+import { BasicFunc, BasicUpdater, Unit } from '@align/core'
 import { Map, Collection, OrderedMap } from 'immutable'
 
 import { Template, createTemplate } from '../domain/template'

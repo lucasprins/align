@@ -16,14 +16,17 @@ export function RouterProvider({ children }: RouterProviderProps) {
   const [path, setPath] = React.useState(window.location.pathname)
   const [searchParams, setSearchParams] = React.useState(new URLSearchParams(window.location.search))
 
-  const navigate = React.useCallback((to: string) => {
-    console.log('to', to)
+  const navigate = React.useCallback(
+    (to: string) => {
+      setPath(to)
+      setSearchParams(new URLSearchParams(window.location.search))
 
-    window.history.pushState({}, '', to)
-    window.dispatchEvent(new Event('popstate'))
-    setPath(to)
-    setSearchParams(new URLSearchParams(window.location.search))
-  }, [])
+      console.log('to', to)
+      window.history.pushState({}, '', to)
+      window.dispatchEvent(new Event('popstate'))
+    },
+    [path, setPath, setSearchParams]
+  )
 
   React.useEffect(() => {
     const onLocationChange = (e: PopStateEvent) => {

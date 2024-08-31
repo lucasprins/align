@@ -1,4 +1,4 @@
-import { id, propertyUpdater } from '@tenet/core'
+import { id, propertyUpdater } from '@align/core'
 
 export type User = {
   id: string

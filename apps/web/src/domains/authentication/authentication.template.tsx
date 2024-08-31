@@ -1,4 +1,4 @@
-import { Template } from '@tenet/core-react'
+import { Template } from '@align/core-react'
 
 import {
   AuthenticationForeignMutationsExpected,

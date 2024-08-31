@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Tenet.Services;
+namespace Align.Services;
 
 public class AuthenticationService(SignInManager<User> signInManager, UserManager<User> userManager, IUserStore<User> userStore) : IAuthenticationService
 {
@@ -11,7 +11,13 @@ public class AuthenticationService(SignInManager<User> signInManager, UserManage
 
     public async Task<bool> Login(LoginRequestDTO loginRequest)
     {
-        var result = await _signInManager.PasswordSignInAsync(loginRequest.Email, loginRequest.Password, Constants.USE_PERSISTENT_SESSION, true);
+        var result = await _signInManager.PasswordSignInAsync(
+            loginRequest.Email,
+            loginRequest.Password,
+            isPersistent: loginRequest.RememberMe == false ? false : Constants.USE_PERSISTENT_SESSION,
+            lockoutOnFailure: true
+        );
+
         return result.Succeeded;
     }
 

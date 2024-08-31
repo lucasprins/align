@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Tenet.Configuration;
+namespace Align.Configuration;
 
 public static class ConfigureControllers
 {

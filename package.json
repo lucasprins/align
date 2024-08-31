@@ -1,5 +1,5 @@
 {
-  "name": "@tenet/tenet",
+  "name": "@align/align",
   "private": true,
   "scripts": {
     "build": "turbo build",

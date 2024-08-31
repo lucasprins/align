@@ -1,27 +1,23 @@
+import { RouterProvider } from '@align/core-react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import App from './App'
+import { ThemeProvider } from '@lib/theme'
+import { Application } from './application'
 
-import { Route, RouterProvider, useRouter } from '@tenet/core-react'
-
-const Rand = ({ params }: { params: any }) => {
-  const { navigate } = useRouter()
-
-  console.log('params', params)
-
-  return <p onClick={() => navigate('/')}>Random</p>
-}
+import '@align/ui/dist/esm/static/css/index.css'
+import './styles/index.css'
 
 const rootEl = document.getElementById('root')
 if (rootEl) {
   const root = ReactDOM.createRoot(rootEl)
   root.render(
     <React.StrictMode>
-      <RouterProvider>
-        <Route path="/" component={App} />
-        <Route path="/user/:id/:obj" component={Rand} />
-      </RouterProvider>
+      <ThemeProvider>
+        <RouterProvider>
+          <Application />
+        </RouterProvider>
+      </ThemeProvider>
     </React.StrictMode>
   )
 }

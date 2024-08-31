@@ -1,5 +1,5 @@
 {
-  "name": "@tenet/core",
+  "name": "@align/core",
   "main": "index.ts",
   "scripts": {
     "typecheck": "npx tsc"

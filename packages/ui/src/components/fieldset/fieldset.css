@@ -1,0 +1,54 @@
+/* Spacing rules */
+.Fieldset > * + .FieldGroup {
+  margin-top: var(--spacing-6);
+}
+
+.Field > .Label + .InputRoot {
+  margin-top: 0.75rem;
+}
+
+.Field > .Label + .FieldDescription {
+  margin-top: 0.25rem;
+}
+
+.Field > .FieldDescription + .InputRoot {
+  margin-top: 0.75rem;
+}
+
+.Field > .InputRoot + .FieldDescription {
+  margin-top: 0.75rem;
+}
+
+.Field > .InputRoot + .FieldError {
+  margin-top: 0.75rem;
+}
+
+.Field > .Label {
+  font-weight: 500;
+}
+
+/* Components */
+.FieldGroup {
+  display: grid;
+  gap: 2rem;
+}
+
+.FieldDescription {
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  color: var(--color-gray-500);
+}
+
+[data-theme='dark'] .FieldDescription {
+  color: var(--color-gray-400);
+}
+
+.FieldError {
+  color: var(--color-critical-600);
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+}
+
+[data-theme='dark'] .FieldError {
+  color: var(--color-critical-500);
+}

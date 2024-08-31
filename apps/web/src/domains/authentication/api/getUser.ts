@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { Http } from '@tenet/core-react'
+import { Http } from '@align/core-react'
 
-import { ApiResultStatus, apiResultStatuses } from '@tenet/core'
+import { ApiResultStatus, apiResultStatuses } from '@align/core'
 import { User } from '../domains/entities/user'
 
 export const getUser = () =>

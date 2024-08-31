@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Tenet.Services;
+namespace Align.Services;
 
 public partial class ValidationService : IValidationService
 {

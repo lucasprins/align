@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Tenet.Controllers
+namespace Align.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-namespace Tenet.Interfaces;
+namespace Align.Interfaces;
 
 public interface IDateAuditable
 {

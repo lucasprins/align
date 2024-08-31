@@ -1,0 +1,190 @@
+.Button {
+  isolation: isolate;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  height: 36px;
+  padding: 0 11px;
+  gap: var(--spacing-2);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-size-sm);
+  font-weight: var(--text-weight-semibold);
+
+  border: 1px solid var(--btn-border);
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+}
+
+.Button.fullWidth {
+  width: 100%;
+}
+
+.Button.loading {
+  --btn-bg: var(--color-gray-200);
+  --btn-color: var(--color-transparent);
+  --btn-icon: var(--color-transparent);
+  cursor: not-allowed;
+}
+
+[data-theme='dark'] .Button.loading {
+  --btn-bg: var(--color-gray-700);
+}
+
+.ButtonSpinner {
+  color: var(--color-gray-600);
+  width: 18px;
+  flex-shrink: 0;
+  position: absolute;
+}
+
+[data-theme='dark'] .ButtonSpinner {
+  color: var(--color-gray-300);
+}
+
+.Button:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+.Button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.Button::before,
+.Button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  border-radius: var(--radius-lg);
+}
+
+.Button::before {
+  background: var(--btn-bg);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.Button::after {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.Button:hover::after {
+  background-color: var(--btn-hover-overlay);
+}
+
+.Button:disabled::before,
+.Button:disabled::after {
+  box-shadow: none;
+}
+
+.Button .Icon {
+  width: 1rem;
+  flex-shrink: 0;
+  color: var(--btn-icon);
+}
+
+[data-theme='dark'] .Button::before {
+  display: none;
+}
+
+[data-theme='dark'] .Button::after {
+  inset: -1px;
+}
+
+/* Variants */
+
+/* dark/gray */
+.Button--dark__gray {
+  --btn-bg: var(--color-gray-900);
+  --btn-color: var(--color-white);
+  --btn-border: var(--color-transparent);
+  --btn-hover-overlay: var(--color-white-A2);
+  --btn-icon: var(--color-gray-400);
+}
+
+[data-theme='dark'] .Button--dark__gray {
+  --btn-bg: var(--color-gray-600);
+  --btn-border: var(--color-white-A1);
+  --btn-hover-overlay: var(--color-white-A1);
+}
+
+/* dark/white */
+.Button--dark__white {
+  --btn-bg: var(--color-gray-900);
+  --btn-color: var(--color-white);
+  --btn-border: var(--color-transparent);
+  --btn-hover-overlay: var(--color-white-A2);
+  --btn-icon: var(--color-gray-400);
+}
+
+[data-theme='dark'] .Button--dark__white {
+  --btn-bg: var(--color-white);
+  --btn-color: var(--color-gray-950);
+  --btn-border: var(--color-white-A1);
+  --btn-hover-overlay: var(--color-black-A1);
+  --btn-icon: var(--color-gray-500);
+}
+
+/* Light */
+.Button--light {
+  --btn-bg: var(--color-white);
+  --btn-color: var(--color-gray-950);
+  --btn-border: var(--color-gray-200);
+  --btn-hover-overlay: var(--color-black-A1);
+  --btn-icon: var(--color-gray-500);
+  box-shadow: var(--shadow-sm);
+}
+
+.Button--light::after {
+  display: none;
+}
+
+[data-theme='dark'] .Button--light::after {
+  display: block;
+}
+
+[data-theme='dark'] .Button--light {
+  --btn-bg: var(--color-gray-800);
+  --btn-color: var(--color-white);
+  --btn-border: var(--color-gray-700);
+  --btn-hover-overlay: var(--color-white-A1);
+}
+
+/* Outline */
+.Button--outline {
+  --btn-bg: var(--color-transparent);
+  --btn-color: var(--color-gray-950);
+  --btn-border: var(--color-gray-200);
+  --btn-hover-overlay: var(--color-black-A1);
+  --btn-icon: var(--color-gray-500);
+}
+
+[data-theme='dark'] .Button--outline {
+  --btn-color: var(--color-white);
+  --btn-border: var(--color-gray-700);
+  --btn-hover-overlay: var(--color-white-A1);
+}
+
+[data-theme='dark'] .Button--outline:hover {
+  --btn-bg: var(--color-white-A1);
+}
+
+.Button--outline::after {
+  display: none;
+}
+
+/* Accent */
+.Button--accent {
+  --btn-bg: var(--color-blue-600);
+  --btn-color: var(--color-white);
+  --btn-border: var(--color-blue-600);
+  --btn-hover-overlay: var(--color-white-A3);
+  --btn-icon: var(--color-blue-300);
+}
+
+[data-theme='dark'] .Button--accent {
+  --btn-hover-overlay: var(--color-white-A2);
+}

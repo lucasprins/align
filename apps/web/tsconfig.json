@@ -14,10 +14,11 @@
     "allowImportingTsExtensions": true,
 
     // path alias
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@domains/*": ["domains/*"],
-      "@lib/*": ["lib/*"]
+      "@/*": ["./src/*"],
+      "@domains/*": ["./src/domains/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src"]

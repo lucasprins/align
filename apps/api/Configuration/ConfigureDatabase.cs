@@ -1,4 +1,4 @@
-namespace Tenet.Configuration;
+namespace Align.Configuration;
 
 public static class ConfigureDatabase
 {

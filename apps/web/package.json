@@ -1,5 +1,5 @@
 {
-  "name": "@tenet/web",
+  "name": "@align/web",
   "private": true,
   "version": "1.0.0",
   "scripts": {
@@ -10,10 +10,15 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
+    "@align/core": "workspace:^",
+    "@align/core-react": "workspace:^",
+    "@align/types": "workspace:^",
+    "@align/ui": "workspace:^",
     "@faker-js/faker": "^8.4.1",
-    "@tenet/core": "workspace:^",
-    "@tenet/core-react": "workspace:^",
-    "@tenet/types": "workspace:^",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "1.1.0",
+    "@radix-ui/react-switch": "^1.1.0",
+    "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "immutable": "^5.0.0-beta.5",
     "react": "^18.3.1",
@@ -31,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.2",
     "typescript-eslint": "^8.0.1"
   }

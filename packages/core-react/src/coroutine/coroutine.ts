@@ -1,4 +1,4 @@
-import { BasicFunc, BasicUpdater, Func, id, Unit, Either } from '@tenet/core'
+import { BasicFunc, BasicUpdater, Func, id, Unit, Either } from '@align/core'
 import { Map, Collection, OrderedMap } from 'immutable'
 
 type Guid = string

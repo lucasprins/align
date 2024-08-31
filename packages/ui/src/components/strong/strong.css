@@ -1,0 +1,8 @@
+.Strong {
+  font-weight: var(--text-weight-medium);
+  color: var(--color-gray-950);
+}
+
+[data-theme='dark'] .Strong {
+  color: var(--color-white);
+}

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Tenet.Data;
+namespace Align.Data;
 
 public class DatabaseContext(DbContextOptions<DatabaseContext> options) : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
@@ -18,9 +18,17 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : Identi
             .HasKey(e => e.Id);
 
         builder.Entity<User>()
-            .HasMany(e => e.Workspaces);
+            .HasMany(e => e.Workspaces)
+            .WithMany(e => e.Users)
+            .UsingEntity<WorkspaceMember>();
 
         builder.Entity<Workspace>()
-            .HasMany(e => e.Users);
+            .HasMany(e => e.Users)
+            .WithMany(e => e.Workspaces)
+            .UsingEntity<WorkspaceMember>();
+
+        builder.Entity<WorkspaceMember>()
+            .Property(e => e.Role)
+            .HasConversion<string>();
     }
 }

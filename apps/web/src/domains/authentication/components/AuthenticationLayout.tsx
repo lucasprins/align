@@ -1,5 +1,5 @@
 import React from 'react'
-import { RenderMaybe } from '@tenet/core-react'
+import { RenderMaybe } from '@align/core-react'
 
 import { Authentication, AuthenticationView } from '../authentication.domain'
 

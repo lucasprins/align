@@ -1,4 +1,4 @@
-import { CoTypedFactory } from '@tenet/core-react'
+import { CoTypedFactory } from '@align/core-react'
 
 import { AuthenticationReadOnlyContext, AuthenticationWriteableState } from '../authentication.domain'
 

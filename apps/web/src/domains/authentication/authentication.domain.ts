@@ -1,5 +1,5 @@
-import { AsyncState, ForeignMutationsInput, Maybe, propertyUpdater, unit, Unit, Updater } from '@tenet/core'
-import { View } from '@tenet/core-react'
+import { AsyncState, ForeignMutationsInput, Maybe, propertyUpdater, unit, Unit, Updater } from '@align/core'
+import { View } from '@align/core-react'
 
 import { Queryable } from '../../lib/query'
 import { User } from './domains/entities/user'

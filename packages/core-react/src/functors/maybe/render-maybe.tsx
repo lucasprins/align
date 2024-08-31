@@ -1,4 +1,4 @@
-import { BasicFunc, Maybe, Unit } from '@tenet/core'
+import { BasicFunc, Maybe, Unit } from '@align/core'
 import React from 'react'
 
 export type RenderMaybeProps<A> = {

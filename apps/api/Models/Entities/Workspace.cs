@@ -1,4 +1,4 @@
-namespace Tenet.Models;
+namespace Align.Models;
 
 public class Workspace : Entity
 {
@@ -7,4 +7,5 @@ public class Workspace : Entity
     public string? LogoUrl { get; set; }
 
     public ICollection<User> Users { get; set; } = [];
+    public ICollection<WorkspaceMember> WorkspaceMembers { get; set; } = [];
 }
