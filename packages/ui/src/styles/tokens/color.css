@@ -124,30 +124,30 @@
   --color-green-950: #052e16;
 
   --color-white: #fff;
-  --color-white-A1: rgba(255, 255, 255, 0.05);
-  --color-white-A2: rgba(255, 255, 255, 0.1);
-  --color-white-A3: rgba(255, 255, 255, 0.15);
-  --color-white-A4: rgba(255, 255, 255, 0.2);
-  --color-white-A5: rgba(255, 255, 255, 0.3);
-  --color-white-A6: rgba(255, 255, 255, 0.4);
-  --color-white-A7: rgba(255, 255, 255, 0.5);
-  --color-white-A8: rgba(255, 255, 255, 0.6);
-  --color-white-A9: rgba(255, 255, 255, 0.7);
-  --color-white-A10: rgba(255, 255, 255, 0.8);
-  --color-white-A11: rgba(255, 255, 255, 0.9);
-  --color-white-A12: rgba(255, 255, 255, 0.95);
+  --color-white-A1: rgba(255, 255, 255, 0.05); /* 5% */
+  --color-white-A2: rgba(255, 255, 255, 0.1); /* 10% */
+  --color-white-A3: rgba(255, 255, 255, 0.15); /* 15% */
+  --color-white-A4: rgba(255, 255, 255, 0.2); /* 20% */
+  --color-white-A5: rgba(255, 255, 255, 0.3); /* 30% */
+  --color-white-A6: rgba(255, 255, 255, 0.4); /* 40% */
+  --color-white-A7: rgba(255, 255, 255, 0.5); /* 50% */
+  --color-white-A8: rgba(255, 255, 255, 0.6); /* 60% */
+  --color-white-A9: rgba(255, 255, 255, 0.7); /* 70% */
+  --color-white-A10: rgba(255, 255, 255, 0.8); /* 80% */
+  --color-white-A11: rgba(255, 255, 255, 0.9); /* 90% */
+  --color-white-A12: rgba(255, 255, 255, 0.95); /* 95% */
 
   --color-black: #000;
-  --color-black-A1: rgba(0, 0, 0, 0.05);
-  --color-black-A2: rgba(0, 0, 0, 0.1);
-  --color-black-A3: rgba(0, 0, 0, 0.15);
-  --color-black-A4: rgba(0, 0, 0, 0.2);
-  --color-black-A5: rgba(0, 0, 0, 0.3);
-  --color-black-A6: rgba(0, 0, 0, 0.4);
-  --color-black-A7: rgba(0, 0, 0, 0.5);
-  --color-black-A8: rgba(0, 0, 0, 0.6);
-  --color-black-A9: rgba(0, 0, 0, 0.7);
-  --color-black-A10: rgba(0, 0, 0, 0.8);
-  --color-black-A11: rgba(0, 0, 0, 0.9);
-  --color-black-A12: rgba(0, 0, 0, 0.95);
+  --color-black-A1: rgba(0, 0, 0, 0.05); /* 5% */
+  --color-black-A2: rgba(0, 0, 0, 0.1); /* 10% */
+  --color-black-A3: rgba(0, 0, 0, 0.15); /* 15% */
+  --color-black-A4: rgba(0, 0, 0, 0.2); /* 20% */
+  --color-black-A5: rgba(0, 0, 0, 0.3); /* 30% */
+  --color-black-A6: rgba(0, 0, 0, 0.4); /* 40% */
+  --color-black-A7: rgba(0, 0, 0, 0.5); /* 50% */
+  --color-black-A8: rgba(0, 0, 0, 0.6); /* 60% */
+  --color-black-A9: rgba(0, 0, 0, 0.7); /* 70% */
+  --color-black-A10: rgba(0, 0, 0, 0.8); /* 80% */
+  --color-black-A11: rgba(0, 0, 0, 0.9); /* 90% */
+  --color-black-A12: rgba(0, 0, 0, 0.95); /* 95% */
 }

@@ -1,0 +1,15 @@
+.Box.display-none {
+  display: none;
+}
+
+.Box.display-inline {
+  display: inline;
+}
+
+.Box.display-inline-block {
+  display: inline-block;
+}
+
+.Box.display-block {
+  display: block;
+}

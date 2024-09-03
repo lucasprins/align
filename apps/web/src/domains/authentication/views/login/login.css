@@ -1,0 +1,70 @@
+.LoginLogo {
+  position: absolute;
+  top: -76px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 28px;
+  color: var(--color-gray-950);
+}
+
+[data-theme='dark'] .LoginLogo {
+  color: var(--color-white);
+}
+
+.RememberMeLabel {
+  font-weight: var(--text-weight-normal) !important;
+}
+
+.ForgotPasswordLink {
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  font-weight: var(--text-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.ForgotPasswordLink:hover {
+  color: var(--color-gray-700);
+}
+
+[data-theme='dark'] .ForgotPasswordLink {
+  color: var(--color-white);
+}
+
+[data-theme='dark'] .ForgotPasswordLink:hover {
+  color: var(--color-gray-300);
+}
+
+.AuthMethodsDividerLabel {
+  font-size: var(--text-size-xs);
+  line-height: var(--text-lineHeight-xs);
+  color: var(--color-gray-500);
+}
+
+.SignupCTAText {
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  color: var(--color-gray-500);
+}
+
+[data-theme='dark'] .SignupCTAText {
+  color: var(--color-gray-400);
+}
+
+.SignupCTALink {
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  font-weight: var(--text-weight-semibold);
+  color: var(--color-gray-950);
+}
+
+.SignupCTALink:hover {
+  color: var(--color-gray-700);
+}
+
+[data-theme='dark'] .SignupCTALink {
+  color: var(--color-white);
+}
+
+[data-theme='dark'] .SignupCTALink:hover {
+  color: var(--color-white-A10);
+}

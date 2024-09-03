@@ -205,7 +205,7 @@ export const Coroutine = {
     promise: BasicFunc<Unit, Promise<result>>,
     onCatch: BasicFunc<any, error>,
     debugName?: string
-  ): Coroutine<context, state, Either<result, error>> =>
+  ): Coroutine<context, state, Either<error, result>> =>
     Coroutine.Create(([_, __]) => {
       let promiseResult: { kind: 'resolve'; result: result } | { kind: 'reject'; error: error } | undefined = undefined
       // const started = Date.now();
@@ -220,15 +220,15 @@ export const Coroutine = {
             promiseResult = { kind: 'reject', error: onCatch(_) }
           })
       )
-      const awaiter = (): CoroutineStep<context, state, Either<result, error>> => {
+      const awaiter = (): CoroutineStep<context, state, Either<error, result>> => {
         return promiseResult == undefined
           ? CoroutineStep.Yield(
               undefined,
               Coroutine.Create(([_, __]) => awaiter())
             )
           : promiseResult.kind == 'resolve'
-            ? CoroutineStep.Result(undefined, Either.left(promiseResult.result))
-            : CoroutineStep.Result(undefined, Either.right(promiseResult.error))
+            ? CoroutineStep.Result(undefined, Either.right(promiseResult.result))
+            : CoroutineStep.Result(undefined, Either.left(promiseResult.error))
       }
       return CoroutineStep.Yield(
         undefined,

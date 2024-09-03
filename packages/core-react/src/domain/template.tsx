@@ -1,4 +1,5 @@
 import { BasicUpdater, unit, Unit } from '@align/core'
+import React from 'react'
 
 export type View<Context, State, ForeignMutations, EmbeddedChildren = Unit> = (
   props: TemplateProps<Context, State, ForeignMutations> & EmbeddedChildren
@@ -43,7 +44,12 @@ export const createTemplate = <Context, State, ForeignMutations, View>(
   return Object.assign(templateRunner, {
     any: (otherTemplates) => {
       return createTemplate<Context, State, ForeignMutations, View>((props) => (
-        <>{[templateRunner(props), ...otherTemplates.map((x) => x({ ...props, view: unit }))]}</>
+        <>
+          {templateRunner(props)}
+          {otherTemplates.map((template) => (
+            <React.Fragment key={crypto.randomUUID()}>{template({ ...props, view: unit })}</React.Fragment>
+          ))}
+        </>
       ))
     },
   } satisfies TemplateExtensions<Context, State, ForeignMutations, View>)

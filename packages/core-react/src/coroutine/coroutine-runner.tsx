@@ -26,6 +26,7 @@ type CoroutineComponentProps<context, state> = {
 type CoroutineComponentState<context, state> = {
   currentCoroutine: Coroutine<context, state, Unit>
 }
+
 class CoroutineComponent<context, state> extends React.Component<
   CoroutineComponentProps<context, state>,
   CoroutineComponentState<context, state>
@@ -37,18 +38,23 @@ class CoroutineComponent<context, state> extends React.Component<
 
   running = false
   animationFrameId?: NodeJS.Timeout = undefined
+
   componentDidMount(): void {
     let lastTimestamp = Date.now()
     this.running = true
+
     const tick = () => {
       if (!this.running) {
         clearInterval(this.animationFrameId)
         return
       }
+
       const currTimestamp = Date.now()
       const step = Co.Tick(this.props.context, this.state.currentCoroutine, currTimestamp - lastTimestamp)
       lastTimestamp = currTimestamp
+
       if (!this.running) return
+
       if (step.kind == 'done') {
         this.setState(
           (s) => ({
@@ -64,6 +70,7 @@ class CoroutineComponent<context, state> extends React.Component<
         )
       }
     }
+
     this.animationFrameId = setInterval(tick, this.props.options?.interval || 250)
   }
 

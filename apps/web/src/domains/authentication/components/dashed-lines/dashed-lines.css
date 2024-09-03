@@ -1,0 +1,60 @@
+.DashedLine {
+  stroke: var(--color-gray-950);
+}
+
+[data-theme='dark'] .DashedLine {
+  stroke: var(--color-white);
+}
+
+.DashedLineHorizontal {
+  position: absolute;
+  margin-left: calc(50% - 50dvw);
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: 100dvw;
+}
+
+.DashedLineHorizontalTop {
+  top: -10px;
+}
+
+.DashedLineHorizontalBottom {
+  bottom: -10px;
+}
+
+.DashedLineVertical {
+  position: absolute;
+  height: 100dvh;
+  transform: translateY(-50%);
+  top: 50%;
+  width: 1px;
+}
+
+.DashedLineVertical-1 {
+  left: -10px;
+}
+
+.DashedLineVertical-2 {
+  right: -10px;
+}
+
+.DashedLineVertical-3 {
+  left: -408px;
+  display: none;
+}
+
+.DashedLineVertical-4 {
+  right: 408px;
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .DashedLineVertical-3 {
+    display: block;
+  }
+
+  .DashedLineVertical-4 {
+    display: block;
+  }
+}

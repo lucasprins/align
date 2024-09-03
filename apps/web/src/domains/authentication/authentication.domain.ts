@@ -1,35 +1,56 @@
-import { AsyncState, ForeignMutationsInput, Maybe, propertyUpdater, unit, Unit, Updater } from '@align/core'
+import { AsyncState, ForeignMutationsInput, FormState, Maybe, propertyUpdater, unit, Unit, Updater } from '@align/core'
 import { View } from '@align/core-react'
 
 import { Queryable } from '../../lib/query'
-import { User } from './domains/entities/user'
+// import { User } from './domains/entities/user'
 
+export type LoginForm = {
+  email: string
+  password: string
+}
+
+export type CreateWorkspaceForm = {
+  name: string
+  url: string
+  companySize: string
+  role: string
+}
+
+// TODO : Split into  child domains?
 type Authentication = {
-  user: Queryable<Unit, User>
+  loginForm: FormState<LoginForm>
+  createWorkspaceForm: FormState<CreateWorkspaceForm>
+
+  // user: Queryable<Unit, User>
 }
 
 const Authentication = {
   Default: (): Authentication => ({
-    user: Queryable.Default.Loading(unit),
+    loginForm: FormState.Default.idle({ email: '', password: '' }),
+    createWorkspaceForm: FormState.Default.idle({ name: '', url: '', companySize: '', role: '' }),
+
+    // user: Queryable.Default.Loading(unit),
   }),
 
   Updaters: {
     Core: {
-      user: propertyUpdater<Authentication>()('user'),
+      // user: propertyUpdater<Authentication>()('user'),
+      loginForm: propertyUpdater<Authentication>()('loginForm'),
+      createWorkspaceForm: propertyUpdater<Authentication>()('createWorkspaceForm'),
     },
 
     Template: {},
 
     Coroutine: {
-      login: (user: User): Updater<Authentication> => {
-        return Authentication.Updaters.Core.user(Queryable.Updaters.response(AsyncState.toLoaded(user)))
-      },
+      // login: (user: User): Updater<Authentication> => {
+      //   return Authentication.Updaters.Core.user(Queryable.Updaters.response(AsyncState.toLoaded(user)))
+      // },
     },
   },
 
   Operations: {
-    getUser: (user: Authentication['user']): Maybe<User> =>
-      AsyncState.isLoaded(user.response) ? Maybe.just(user.response.value) : Maybe.nothing(),
+    // getUser: (user: Authentication['user']): Maybe<User> =>
+    //   AsyncState.isLoaded(user.response) ? Maybe.just(user.response.value) : Maybe.nothing(),
   },
 
   ForeignMutations: (input: ForeignMutationsInput<AuthenticationReadOnlyContext, AuthenticationWriteableState>) => ({

@@ -1,0 +1,107 @@
+.gap-1 {
+  gap: var(--spacing-1);
+}
+
+.rowGap-1 {
+  row-gap: var(--spacing-1);
+}
+
+.columnGap-1 {
+  column-gap: var(--spacing-1);
+}
+
+.gap-2 {
+  gap: var(--spacing-2);
+}
+
+.rowGap-2 {
+  row-gap: var(--spacing-2);
+}
+
+.columnGap-2 {
+  column-gap: var(--spacing-2);
+}
+
+.gap-3 {
+  gap: var(--spacing-3);
+}
+
+.rowGap-3 {
+  row-gap: var(--spacing-3);
+}
+
+.columnGap-3 {
+  column-gap: var(--spacing-3);
+}
+
+.gap-4 {
+  gap: var(--spacing-4);
+}
+
+.rowGap-4 {
+  row-gap: var(--spacing-4);
+}
+
+.columnGap-4 {
+  column-gap: var(--spacing-4);
+}
+
+.gap-5 {
+  gap: var(--spacing-5);
+}
+
+.rowGap-5 {
+  row-gap: var(--spacing-5);
+}
+
+.columnGap-5 {
+  column-gap: var(--spacing-5);
+}
+
+.gap-6 {
+  gap: var(--spacing-6);
+}
+
+.rowGap-6 {
+  row-gap: var(--spacing-6);
+}
+
+.columnGap-6 {
+  column-gap: var(--spacing-6);
+}
+
+.gap-7 {
+  gap: var(--spacing-7);
+}
+
+.rowGap-7 {
+  row-gap: var(--spacing-7);
+}
+
+.columnGap-7 {
+  column-gap: var(--spacing-7);
+}
+
+.gap-8 {
+  gap: var(--spacing-8);
+}
+
+.rowGap-8 {
+  row-gap: var(--spacing-8);
+}
+
+.columnGap-8 {
+  column-gap: var(--spacing-8);
+}
+
+.gap-9 {
+  gap: var(--spacing-9);
+}
+
+.rowGap-9 {
+  row-gap: var(--spacing-9);
+}
+
+.columnGap-9 {
+  column-gap: var(--spacing-9);
+}

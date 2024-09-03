@@ -1,4 +1,3 @@
-import { RouterProvider } from '@align/core-react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -14,9 +13,7 @@ if (rootEl) {
   root.render(
     <React.StrictMode>
       <ThemeProvider>
-        <RouterProvider>
-          <Application />
-        </RouterProvider>
+        <Application />
       </ThemeProvider>
     </React.StrictMode>
   )

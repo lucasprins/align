@@ -1,18 +1,22 @@
-import './index.css'
+import './styles/index.css'
 
 import './fonts/InterVariable.woff2'
 import './fonts/InterVariable-Italic.woff2'
 
 export * from './types'
 
+export * from './components/box'
 export * from './components/button'
+export * from './components/card'
 export * from './components/code'
 export * from './components/divider'
 export * from './components/fieldset'
+export * from './components/flex'
 export * from './components/heading'
 export * from './components/icon'
 export * from './components/input'
 export * from './components/label'
+export * from './components/select'
 export * from './components/strong'
 export * from './components/switch'
 export * from './components/text'

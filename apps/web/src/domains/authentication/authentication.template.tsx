@@ -6,8 +6,9 @@ import {
   AuthenticationView,
   AuthenticationWriteableState,
 } from './authentication.domain'
+import { AuthenticationValidateLoginFormRunner } from './coroutines/_runners'
 
-import { AuthenticationGetUserRunner } from './coroutines/_runners'
+// import { AuthenticationGetUserRunner } from './coroutines/_runners'
 
 export const AuthenticationTemplate = Template.Default<
   AuthenticationReadOnlyContext,
@@ -16,4 +17,7 @@ export const AuthenticationTemplate = Template.Default<
   AuthenticationView
 >((props) => {
   return <props.view {...props} />
-}).any([AuthenticationGetUserRunner])
+}).any([
+  AuthenticationValidateLoginFormRunner,
+  // AuthenticationGetUserRunner
+])

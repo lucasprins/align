@@ -1,0 +1,50 @@
+.Card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6) var(--spacing-5);
+  box-shadow:
+    0 0 0 #0000,
+    0 0 0 #0000,
+    0px 0px 0px 1px rgba(9, 9, 11, 0.07),
+    0px 2px 2px 0px rgba(9, 9, 11, 0.05);
+}
+
+[data-theme='dark'] .Card {
+  box-shadow:
+    0 0 0 #0000,
+    0 0 0 #0000,
+    0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .Card::before {
+  pointer-events: none;
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 0 0 #0000,
+    0 0 0 #0000,
+    0px 2px 8px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 0px 0px rgba(255, 255, 255, 0.06) inset;
+}
+
+.Card-secondary {
+  background-color: var(--color-white);
+}
+
+[data-theme='dark'] .Card-secondary {
+  background-color: var(--color-gray-800);
+}
+
+@media (min-width: 640px) {
+  .Card {
+    padding: var(--spacing-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .Card {
+    padding: var(--spacing-8);
+  }
+}

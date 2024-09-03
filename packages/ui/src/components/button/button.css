@@ -30,10 +30,11 @@
 
 [data-theme='dark'] .Button.loading {
   --btn-bg: var(--color-gray-700);
+  --btn-color: var(--color-transparent);
 }
 
 .ButtonSpinner {
-  color: var(--color-gray-600);
+  color: var(--color-gray-950);
   width: 18px;
   flex-shrink: 0;
   position: absolute;

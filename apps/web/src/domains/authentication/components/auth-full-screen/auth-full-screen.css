@@ -1,0 +1,12 @@
+.AuthFullscreen {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-50);
+}
+
+[data-theme='dark'] .AuthFullscreen {
+  background-color: var(--color-zinc-900);
+}

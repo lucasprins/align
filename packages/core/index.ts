@@ -11,6 +11,9 @@ export * from './src/async/async-state'
 // `domain`
 export * from './src/domain/foreign-mutations'
 
+// `form`
+export * from './src/form/form-state'
+
 // `functors`
 export * from './src/functors/either'
 export * from './src/functors/maybe'

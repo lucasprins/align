@@ -1,5 +1,6 @@
 .Label {
   user-select: none;
+  display: block;
   color: var(--color-gray-950);
   font-size: var(--text-size-sm);
   line-height: var(--text-lineHeight-sm);

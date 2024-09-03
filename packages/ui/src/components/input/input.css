@@ -1,4 +1,4 @@
-/* Wrapper used for inner border on focus */
+/* Wrapper used for inner border on focus and shadow */
 .InputRoot {
   position: relative;
   display: block;
@@ -6,11 +6,16 @@
 }
 
 .InputRoot::before {
+  content: '';
   position: absolute;
   inset: 1px;
   border-radius: var(--radius-lg);
   background-color: var(--color-white);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='dark'] .InputRoot::before {
+  display: none;
 }
 
 .InputRoot::after {
@@ -31,7 +36,7 @@
 
 /* Input */
 .Input {
-  --input-border: var(--color-gray-200);
+  --input-border: rgba(9, 9, 11, 0.1);
   --input-bg: var(--color-transparent);
   --input-color: var(--color-gray-950);
 
@@ -50,7 +55,7 @@
 }
 
 .Input::placeholder {
-  color: var(--color-gray-500);
+  color: var(--color-gray-400);
 }
 
 .Input:focus {
@@ -58,7 +63,7 @@
 }
 
 .Input:hover {
-  --input-border: var(--color-gray-300);
+  --input-border: rgba(9, 9, 11, 0.2);
 }
 
 .Input:disabled {

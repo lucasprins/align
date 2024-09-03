@@ -1,4 +1,4 @@
-import { Link } from '@align/core-react'
+import { Link } from 'wouter'
 
 /**
  * Views:
@@ -47,7 +47,7 @@ export const Register = ({}: RegisterProps) => {
 
         <div>
           <span>Already have an account?</span>
-          <Link href="/login">Login</Link>
+          <Link to="/login">Login</Link>
         </div>
       </div>
     </main>
