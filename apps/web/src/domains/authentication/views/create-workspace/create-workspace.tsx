@@ -1,5 +1,5 @@
 import { FormState } from '@align/core'
-import { Form } from '@align/core-react'
+import { Form, FormField } from '@align/core-react'
 
 import {
   Box,
@@ -45,7 +45,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
             form={createWorkspaceForm}
             setState={(updater) => setState(Authentication.Updaters.Core.createWorkspaceForm(updater))}
           >
-            {({ FormField }) => (
+            {({ fieldProps }) => (
               <form onSubmit={(e) => e.preventDefault()}>
                 <Flex direction="column" gap={6}>
                   <Box position="absolute" top="-9" left="1/2" translateXNeg="1/2">
@@ -58,7 +58,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
 
                   <Fieldset>
                     <FieldGroup>
-                      <FormField field="name">
+                      <FormField field="name" {...fieldProps}>
                         {({ error, ...field }) => (
                           <Field>
                             <Label htmlFor="name">Workspace Name</Label>
@@ -68,7 +68,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                         )}
                       </FormField>
 
-                      <FormField field="url">
+                      <FormField field="url" {...fieldProps}>
                         {({ error, ...field }) => (
                           <Field className="relative">
                             <Label htmlFor="url">Workspace URL</Label>
@@ -83,7 +83,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
 
                       <Divider />
 
-                      <FormField field="companySize">
+                      <FormField field="companySize" {...fieldProps}>
                         {({ error, value, onChange }) => (
                           <Field>
                             <Label htmlFor="companySize">How large is your company?</Label>
@@ -108,7 +108,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                         )}
                       </FormField>
 
-                      <FormField field="role">
+                      <FormField field="role" {...fieldProps}>
                         {({ error, value, onChange }) => (
                           <Field>
                             <Label htmlFor="role">What is your role?</Label>
