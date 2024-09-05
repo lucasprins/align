@@ -15,7 +15,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
   const setThemeInternal = useCallback((theme: Theme) => {
-    console.log("setThemeInternal")
+    console.log('setThemeInternal')
 
     const rootElement = document.documentElement
 
@@ -29,6 +29,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       rootElement.classList.remove('disable-transitions')
     }, 50)
   }, [])
+
+  /**
+   * @todo Sync between tabs by adding storage event listener
+   */
 
   return <ThemeContext.Provider value={{ theme, setTheme: setThemeInternal }}>{children}</ThemeContext.Provider>
 }

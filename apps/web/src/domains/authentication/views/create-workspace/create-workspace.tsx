@@ -62,7 +62,8 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                         {({ error, ...field }) => (
                           <Field>
                             <Label htmlFor="name">Workspace Name</Label>
-                            <Input type="name" id="name" {...field} />
+                            <Input id="name" {...field} />
+
                             {error && <FieldError>{error}</FieldError>}
                           </Field>
                         )}
@@ -72,7 +73,6 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                         {({ error, ...field }) => (
                           <Field className="relative">
                             <Label htmlFor="url">Workspace URL</Label>
-
                             <Input id="url" className="pl-20" {...field} />
                             <span className="WorkspaceUrlPrefix">align.com/</span>
 

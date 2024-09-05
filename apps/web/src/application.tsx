@@ -30,7 +30,16 @@ export const Application = () => {
           )}
         </Route>
 
-        <Route path="/sign-up" component={Register} />
+        <Route path="/sign-up">
+          {(params) => (
+            <AuthenticationTemplate
+              context={authentication}
+              setState={setAuthentication}
+              foreignMutations={unit}
+              view={Register}
+            />
+          )}
+        </Route>
 
         <Route path="/create-workspace">
           {(params) => (

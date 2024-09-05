@@ -9,6 +9,13 @@ export type LoginForm = {
   password: string
 }
 
+export type RegisterForm = {
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
 export type CreateWorkspaceForm = {
   name: string
   url: string
@@ -19,6 +26,7 @@ export type CreateWorkspaceForm = {
 // TODO : Split into  child domains?
 type Authentication = {
   loginForm: FormState<LoginForm>
+  registerForm: FormState<RegisterForm>
   createWorkspaceForm: FormState<CreateWorkspaceForm>
 
   // user: Queryable<Unit, User>
@@ -27,6 +35,7 @@ type Authentication = {
 const Authentication = {
   Default: (): Authentication => ({
     loginForm: FormState.Default.idle({ email: '', password: '' }),
+    registerForm: FormState.Default.idle({ username: '', email: '', password: '', confirmPassword: '' }),
     createWorkspaceForm: FormState.Default.idle({ name: '', url: '', companySize: '', role: '' }),
 
     // user: Queryable.Default.Loading(unit),
@@ -36,6 +45,7 @@ const Authentication = {
     Core: {
       // user: propertyUpdater<Authentication>()('user'),
       loginForm: propertyUpdater<Authentication>()('loginForm'),
+      registerForm: propertyUpdater<Authentication>()('registerForm'),
       createWorkspaceForm: propertyUpdater<Authentication>()('createWorkspaceForm'),
     },
 
