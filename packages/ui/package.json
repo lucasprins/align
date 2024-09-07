@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@align/core-react": "workspace:^",
+    "@align/utility-types": "workspace:^",
     "@rsbuild/plugin-react": "1.0.1-beta.13",
     "@rslib/core": "^0.0.4",
     "@types/react": "^18.3.3",
@@ -28,7 +29,7 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@align/types": "workspace:^",
+    "@radix-ui/react-dropdown-menu": "2.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "1.1.0",

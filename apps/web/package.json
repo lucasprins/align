@@ -12,7 +12,7 @@
   "dependencies": {
     "@align/core": "workspace:^",
     "@align/core-react": "workspace:^",
-    "@align/types": "workspace:^",
+    "@align/api-types": "workspace:^",
     "@align/ui": "workspace:^",
     "@faker-js/faker": "^8.4.1",
     "@radix-ui/react-separator": "^1.1.0",

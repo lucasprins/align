@@ -1,4 +1,4 @@
-import { Guid } from './index'
+import { Guid } from '@align/utility-types'
 
 export type Workspace = {
   id: Guid

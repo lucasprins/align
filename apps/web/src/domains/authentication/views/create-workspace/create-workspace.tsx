@@ -73,7 +73,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                         {({ error, ...field }) => (
                           <Field className="relative">
                             <Label htmlFor="url">Workspace URL</Label>
-                            <Input id="url" className="pl-20" {...field} />
+                            <Input id="url" className="WorkspaceUrlInput" {...field} />
                             <span className="WorkspaceUrlPrefix">align.com/</span>
 
                             {error && <FieldError>{error}</FieldError>}

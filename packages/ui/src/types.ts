@@ -1,4 +1,4 @@
-import { StringifyWithNegatives } from '@align/types'
+import { StringifyWithNegatives } from '@align/utility-types'
 
 export type SlottableComponent = { asChild?: boolean }
 

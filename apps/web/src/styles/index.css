@@ -22,3 +22,21 @@ html {
   color: var(--color-white);
   background-color: var(--color-gray-950);
 }
+
+/* https://rsms.me/inter/#features */
+code,
+body {
+  font-family: 'Inter';
+  font-feature-settings:
+    'cv01' on,
+    'cv09' on,
+    'cv02' on,
+    'cv03' on,
+    'cv04' on,
+    'zero' on,
+    'cv10' on,
+    'cv06' on,
+    'cv11' on,
+    'cv12' on,
+    'cv13' on;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@align/types",
+  "name": "@align/utility-types",
   "main": "index.ts",
   "devDependencies": {
     "typescript": "^5.5.4"

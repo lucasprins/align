@@ -1,6 +1,6 @@
 export * from './arrows'
 // export * from './charts'
-// export * from './communication'
+export * from './communication'
 export * from './development'
 // export * from './editor'
 export * from './education'

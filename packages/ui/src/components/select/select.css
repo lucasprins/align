@@ -115,12 +115,13 @@
   border-radius: var(--radius-xl);
   padding: var(--spacing-1);
   backdrop-filter: var(--backdrop-blur-xl);
-  box-shadow: var(--shadow-lg);
   outline: 1px solid transparent;
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-  box-shadow: var(--select-content-ring-inset) 0 0 0 1px var(--select-content-ring-color);
+  box-shadow:
+    var(--select-content-ring-inset) 0 0 0 1px var(--select-content-ring-color),
+    var(--shadow-lg);
 }
 
 [data-theme='dark'] .SelectContent {

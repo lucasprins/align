@@ -13,6 +13,12 @@ export const IconArrowRight: React.FC<IconComponentProps> = (props) => (
   </IconBase>
 )
 
+export const IconChevronDown: React.FC<IconComponentProps> = (props) => (
+  <IconBase {...props}>
+    <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </IconBase>
+)
+
 export const IconChevronRight: React.FC<IconComponentProps> = (props) => (
   <IconBase {...props}>
     <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

@@ -1,0 +1,109 @@
+/* Separator */
+.DropdownMenuSeparator {
+  margin: var(--spacing-1) var(--spacing-3);
+  height: 1px;
+  background-color: rgba(9, 9, 11, 0.05);
+}
+
+[data-theme='dark'] .DropdownMenuSeparator {
+  background-color: var(--color-white-A2);
+}
+
+/* Content */
+.DropdownMenuContent,
+.DropdownMenuSubContent {
+  --select-content-ring-inset: ;
+  --select-content-ring-color: rgba(9, 9, 11, 0.1);
+
+  isolation: isolate;
+  user-select: none;
+  overflow: hidden;
+  background-color: var(--color-white-A10);
+  min-width: var(--radix-dropdown-menu-trigger-width);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-1);
+  backdrop-filter: var(--backdrop-blur-xl);
+  box-shadow: var(--shadow-lg);
+  outline: 1px solid transparent;
+
+  box-shadow:
+    var(--select-content-ring-inset) 0 0 0 1px var(--select-content-ring-color),
+    var(--shadow-lg);
+
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+[data-theme='dark'] .DropdownMenuContent {
+  background-color: rgba(39, 39, 42, 0.8);
+  --select-content-ring-inset: inset;
+  --select-content-ring-color: var(--color-white-A2);
+}
+
+.DropdownMenuContent:focus {
+  outline: none;
+}
+
+/* Item */
+.DropdownMenuItem {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  column-gap: var(--spacing-2);
+  border-radius: var(--radius-lg);
+  height: 36px;
+  font-size: var(--text-size-sm);
+  line-height: var(--text-lineHeight-sm);
+  color: var(--color-gray-950);
+  outline: none;
+  padding: 0 14px;
+}
+
+[data-theme='dark'] .DropdownMenuItem {
+  color: var(--color-white);
+}
+
+.DropdownMenuItem[data-disabled] {
+  opacity: 50%;
+}
+
+.DropdownMenuItem[data-highlighted] {
+  outline: none;
+  background-color: var(--color-accent-500);
+  color: var(--color-white);
+}
+
+.DropdownMenuItem .Icon {
+  width: 16px;
+  color: var(--color-gray-500);
+}
+
+[data-theme='dark'] .DropdownMenuItem .Icon {
+  color: var(--color-gray-400);
+}
+
+.DropdownMenuItem[data-highlighted] .Icon {
+  color: var(--color-white);
+}
+
+/* Animations */
+.DropdownMenuContent[data-side='top'],
+.DropdownMenuSubContent[data-side='top'] {
+  animation-name: slideDownAndFade;
+}
+
+.DropdownMenuContent[data-side='right'],
+.DropdownMenuSubContent[data-side='right'] {
+  animation-name: slideLeftAndFade;
+}
+
+.DropdownMenuContent[data-side='bottom'],
+.DropdownMenuSubContent[data-side='bottom'] {
+  animation-name: slideUpAndFade;
+}
+
+.DropdownMenuContent[data-side='left'],
+.DropdownMenuSubContent[data-side='left'] {
+  animation-name: slideRightAndFade;
+}

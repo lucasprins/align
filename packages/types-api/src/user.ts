@@ -1,4 +1,5 @@
-import { DateTimeString, Guid } from './index'
+import { DateTimeString, Guid } from '@align/utility-types'
+
 import { Workspace, WorkspaceMemberRole } from './workspace'
 
 export type User = {

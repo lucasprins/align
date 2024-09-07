@@ -6,6 +6,7 @@ import { Authentication } from '@domains/authentication/authentication.domain'
 import { CreateWorkspace } from '@domains/authentication/views/create-workspace/create-workspace'
 import { Login } from '@domains/authentication/views/login/login'
 import { Register } from '@domains/authentication/views/register/register'
+import { ApplicationLayout } from './components/application-layout/application-layout'
 import { AuthenticationTemplate } from './domains/authentication/authentication.template'
 
 export const Application = () => {
@@ -43,7 +44,7 @@ export const Application = () => {
 
         <Route path="/create-workspace">
           {(params) => (
-            // TODO? : Split into subdomain of auth?
+            // TODO? : Split into subdomain of workspaces instead of auth
             <AuthenticationTemplate
               context={authentication}
               setState={setAuthentication}
@@ -53,17 +54,20 @@ export const Application = () => {
           )}
         </Route>
 
-        {/* Main */}
-        {/* TODO : make components for this to handle redirect there */}
-        {/* <Route path="/:workspace">{(params) => <Redirect to={`/${params.workspace}/inbox`} />}</Route>
+        {/* TODO : make components for this to handle redirect in the component instead of here. */}
+        {/* <Route path="/:workspace">{(params) => <Redirect to={`/${params.workspace}/inbox`} />}</Route>*/}
 
-        <Route
-          path="/:workspace/inbox"
-          component={(params) => {
-            console.log('params', params)
-            return <p>WorkspaceInbox</p>
-          }}
-        /> */}
+        <Route path="/:workspace/inbox">
+          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
+        </Route>
+
+        <Route path="/:workspace/issues">
+          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
+        </Route>
+
+        <Route path="/:workspace/projects">
+          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
+        </Route>
       </Switch>
     </Router>
   )

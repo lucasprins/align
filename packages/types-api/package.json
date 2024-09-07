@@ -1,0 +1,8 @@
+{
+  "name": "@align/api-types",
+  "main": "index.ts",
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@align/utility-types": "workspace:*"
+  }
+}
