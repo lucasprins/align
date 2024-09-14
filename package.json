@@ -4,8 +4,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dotnet": "cd ./apps/api && dotnet run --launch-profile https",
-    "dotnet:test": "cd ./__tests/api && dotnet test",
+    "dotnet:api": "dotnet run --launch-profile https --project ./apps/api",
+    "dotnet:api/test": "dotnet test ./apps/api-tests",
     "docker:up": "docker compose up"
   },
   "devDependencies": {

@@ -16,7 +16,7 @@ export default function AuthenticatedRoute({ user, children }: AuthenticatedRout
   }
 
   if (AsyncState.isFailed(user)) {
-    return <></>
+    return <Redirect to={routes.login} />
   }
 
   return <Redirect to={routes.login} />

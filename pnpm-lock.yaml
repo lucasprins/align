@@ -16,6 +16,8 @@ importers:
         specifier: latest
         version: 2.1.0
 
+  apps/api: {}
+
   apps/web:
     dependencies:
       '@align/api-types':
