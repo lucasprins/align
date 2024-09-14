@@ -3,4 +3,6 @@
   --transition-duration-200: 200ms;
 
   --transition-colors: color, background-color, border-color, text-decoration-color, fill, stroke; /* use with transition-property */
+
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

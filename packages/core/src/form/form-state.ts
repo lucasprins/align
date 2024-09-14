@@ -83,6 +83,7 @@ export const FormState = {
         FormState.Assert.isInvalid(_) ? { ..._, errors: {}, kind: 'submitting' } : { ..._, kind: 'submitting' }
       ),
     toSubmitted: <T>(): Updater<FormState<T>> => Updater((_) => ({ ..._, kind: 'submitted' })),
+    toSubmissionFailed: <T>(): Updater<FormState<T>> => Updater((_) => ({ ..._, kind: 'submissionFailed' })),
   },
 
   Assert: { isIdle, isValidating, isInvalid, isSubmitting, isSubmitted, isSubmissionFailed },

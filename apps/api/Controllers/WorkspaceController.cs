@@ -24,7 +24,7 @@ namespace Align.Controllers
         }
 
         [HttpGet("isUrlAvailable")]
-        public async Task<ActionResult<bool>> IsUrlAvailable(string url)
+        public async Task<ActionResult<bool>> IsWorkspaceUrlAvailable(string url)
         {
             return await _workspaceService.IsUrlAvailable(url);
         }

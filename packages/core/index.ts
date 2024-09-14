@@ -2,11 +2,12 @@ export * from './src/api-result'
 export * from './src/func'
 export * from './src/identity'
 export * from './src/unit'
+export * from './src/value'
 
 // `async`
 export * from './src/async/async-state'
-
-// `coroutine`
+export * from './src/async/debounced'
+export * from './src/async/synchronized'
 
 // `domain`
 export * from './src/domain/foreign-mutations'

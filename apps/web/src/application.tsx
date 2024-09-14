@@ -1,3 +1,4 @@
+import { User } from '@align/api-types'
 import { unit } from '@align/core'
 import React from 'react'
 import { Route, Router, Switch } from 'wouter'
@@ -7,7 +8,15 @@ import { CreateWorkspace } from '@domains/authentication/views/create-workspace/
 import { Login } from '@domains/authentication/views/login/login'
 import { Register } from '@domains/authentication/views/register/register'
 import { ApplicationLayout } from './components/application-layout/application-layout'
+import { ApplicationLayoutProps } from './components/application-layout/application-layout-props'
+import AuthenticatedRoute from './components/authenticated-route/authenticated-route'
 import { AuthenticationTemplate } from './domains/authentication/authentication.template'
+
+import {
+  AuthenticationLoginRunner,
+  AuthenticationLogoutCleanupRunner,
+  AuthenticationLogoutRunner,
+} from './domains/authentication/coroutines/_runners'
 
 export const Application = () => {
   const [authentication, setAuthentication] = React.useState(Authentication.Default())
@@ -16,59 +25,128 @@ export const Application = () => {
     return Authentication.ForeignMutations({ context: authentication, setState: setAuthentication })
   }, [authentication, setAuthentication])
 
+  const getApplicationLayoutProps = React.useCallback(
+    (workspace: string, user: User): ApplicationLayoutProps => {
+      return {
+        workspace,
+        user,
+        handleLogout: () => setAuthentication(Authentication.Updaters.Template.logout()),
+      }
+    },
+    [authentication]
+  )
+
   return (
-    <Router>
-      <Switch>
-        {/* Authentication */}
-        <Route path="/login">
-          {(params) => (
-            <AuthenticationTemplate
-              context={authentication}
-              setState={setAuthentication}
-              foreignMutations={unit}
-              view={Login}
-            />
-          )}
-        </Route>
+    <>
+      <AuthenticationLoginRunner
+        context={authentication}
+        setState={setAuthentication}
+        foreignMutations={unit}
+        view={unit}
+      />
 
-        <Route path="/sign-up">
-          {(params) => (
-            <AuthenticationTemplate
-              context={authentication}
-              setState={setAuthentication}
-              foreignMutations={unit}
-              view={Register}
-            />
-          )}
-        </Route>
+      <AuthenticationLogoutRunner
+        context={authentication}
+        setState={setAuthentication}
+        foreignMutations={unit}
+        view={unit}
+      />
 
-        <Route path="/create-workspace">
-          {(params) => (
-            // TODO? : Split into subdomain of workspaces instead of auth
-            <AuthenticationTemplate
-              context={authentication}
-              setState={setAuthentication}
-              foreignMutations={unit}
-              view={CreateWorkspace}
-            />
-          )}
-        </Route>
+      <AuthenticationLogoutCleanupRunner
+        context={authentication}
+        setState={setAuthentication}
+        foreignMutations={unit}
+        view={unit}
+      />
 
-        {/* TODO : make components for this to handle redirect in the component instead of here. */}
-        {/* <Route path="/:workspace">{(params) => <Redirect to={`/${params.workspace}/inbox`} />}</Route>*/}
+      <Router>
+        <Switch>
+          {/* Authentication */}
+          <Route path="/login">
+            {(params) => (
+              <AuthenticationTemplate
+                context={authentication}
+                setState={setAuthentication}
+                foreignMutations={unit}
+                view={Login}
+              />
+            )}
+          </Route>
 
-        <Route path="/:workspace/inbox">
-          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
-        </Route>
+          <Route path="/sign-up">
+            {() => (
+              <AuthenticationTemplate
+                context={authentication}
+                setState={setAuthentication}
+                foreignMutations={unit}
+                view={Register}
+              />
+            )}
+          </Route>
 
-        <Route path="/:workspace/issues">
-          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
-        </Route>
+          <Route path="/create-workspace">
+            {() => (
+              // TODO? : Split into subdomain of workspaces instead of auth
+              <AuthenticationTemplate
+                context={authentication}
+                setState={setAuthentication}
+                foreignMutations={unit}
+                view={CreateWorkspace}
+              />
+            )}
+          </Route>
 
-        <Route path="/:workspace/projects">
-          {(params) => <ApplicationLayout workspace={params.workspace}></ApplicationLayout>}
-        </Route>
-      </Switch>
-    </Router>
+          <Route path="/:workspace/inbox">
+            {(params) => (
+              <AuthenticatedRoute user={authentication.user.sync}>
+                {(user) => (
+                  <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
+                )}
+              </AuthenticatedRoute>
+            )}
+          </Route>
+
+          <Route path="/:workspace/issues">
+            {(params) => (
+              <AuthenticatedRoute user={authentication.user.sync}>
+                {(user) => (
+                  <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
+                )}
+              </AuthenticatedRoute>
+            )}
+          </Route>
+
+          <Route path="/:workspace/projects">
+            {(params) => (
+              <AuthenticatedRoute user={authentication.user.sync}>
+                {(user) => (
+                  <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
+                )}
+              </AuthenticatedRoute>
+            )}
+          </Route>
+
+          <Route path="/:workspace/cycles">
+            {(params) => (
+              <AuthenticatedRoute user={authentication.user.sync}>
+                {(user) => (
+                  <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
+                )}
+              </AuthenticatedRoute>
+            )}
+          </Route>
+
+          <Route path="/:workspace/teams">
+            {(params) => (
+              <AuthenticatedRoute user={authentication.user.sync}>
+                {(user) => (
+                  <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
+                )}
+              </AuthenticatedRoute>
+            )}
+          </Route>
+        </Switch>
+      </Router>
+    </>
   )
 }

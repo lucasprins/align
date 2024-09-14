@@ -10,9 +10,9 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
+    "@align/api-types": "workspace:^",
     "@align/core": "workspace:^",
     "@align/core-react": "workspace:^",
-    "@align/api-types": "workspace:^",
     "@align/ui": "workspace:^",
     "@faker-js/faker": "^8.4.1",
     "@radix-ui/react-separator": "^1.1.0",
@@ -20,6 +20,7 @@
     "@radix-ui/react-switch": "^1.1.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "framer-motion": "^11.5.4",
     "i18next": "23.14.0",
     "immutable": "^5.0.0-beta.5",
     "react": "^18.3.1",

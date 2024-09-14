@@ -1,4 +1,4 @@
-import { FormState } from '@align/core'
+import { AsyncState, Debounced, FormState, replaceWith, Synchronized } from '@align/core'
 import { Form, FormField } from '@align/core-react'
 
 import {
@@ -24,16 +24,18 @@ import {
 } from '@align/ui'
 
 import { useTheme } from '@/lib/theme'
-import { Authentication, AuthenticationView } from '../../authentication.domain'
+import { Authentication, AuthenticationView, CreateWorkspaceForm } from '../../authentication.domain'
 import { AuthFullscreen } from '../../components/auth-full-screen/auth-full-screen'
 import { DashedLines } from '../../components/dashed-lines/dashed-lines'
 
 import './create-workspace.css'
 
-export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspaceForm }, setState }) => {
+export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
   const { theme, setTheme } = useTheme()
 
-  console.log(createWorkspaceForm)
+  // console.log(createWorkspaceForm)
+
+  console.log(context)
 
   return (
     <AuthFullscreen>
@@ -42,7 +44,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
           <DashedLines />
 
           <Form
-            form={createWorkspaceForm}
+            form={context.createWorkspaceForm}
             setState={(updater) => setState(Authentication.Updaters.Core.createWorkspaceForm(updater))}
           >
             {({ fieldProps }) => (
@@ -70,11 +72,23 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                       </FormField>
 
                       <FormField field="url" {...fieldProps}>
-                        {({ error, ...field }) => (
+                        {({ error, value }) => (
                           <Field className="relative">
                             <Label htmlFor="url">Workspace URL</Label>
-                            <Input id="url" className="WorkspaceUrlInput" {...field} />
+                            <Input
+                              id="url"
+                              className="WorkspaceUrlInput"
+                              value={value.value}
+                              onChange={(e) => {
+                                setState(Authentication.Updaters.Template.updateWorkspaceFormUrl(e.target.value))
+                              }}
+                            />
                             <span className="WorkspaceUrlPrefix">align.com/</span>
+
+                            {AsyncState.isLoaded(context.createWorkspaceForm.values.url.sync) &&
+                              context.createWorkspaceForm.values.url.sync.value === false && (
+                                <FieldError>Workspace URL is already taken</FieldError>
+                              )}
 
                             {error && <FieldError>{error}</FieldError>}
                           </Field>
@@ -141,7 +155,7 @@ export const CreateWorkspace: AuthenticationView = ({ context: { createWorkspace
                     type="submit"
                     variant="dark__white"
                     fullWidth
-                    loading={FormState.Assert.isValidating(createWorkspaceForm)}
+                    loading={FormState.Assert.isValidating(context.createWorkspaceForm)}
                     onClick={() => {
                       setState(Authentication.Updaters.Core.createWorkspaceForm(FormState.Updaters.toValidating()))
 

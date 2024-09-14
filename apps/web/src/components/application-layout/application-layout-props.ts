@@ -1,8 +1,11 @@
-import { IconComponentProps, IconProps } from '@align/ui'
+import { User } from '@align/api-types'
+import { IconComponentProps } from '@align/ui'
 
 export interface ApplicationLayoutProps {
   children?: React.ReactNode
   workspace: string
+  user: User
+  handleLogout: () => void
 }
 
 export interface NavigationLinkProps {
@@ -20,3 +23,7 @@ export type NavigationButtonProps = { as?: 'button' | 'span' } & (
       children: React.ReactNode
     }
 )
+
+export interface NavigationAvatarProps {
+  handleLogout: () => void
+}

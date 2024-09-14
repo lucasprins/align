@@ -1,0 +1,19 @@
+.LoadingScreen {
+  width: 100%;
+  height: 100svh;
+  background-color: var(--color-gray-100);
+}
+
+[data-theme='dark'] .LoadingScreen {
+  background-color: var(--color-gray-900);
+}
+
+.LoadingLogo {
+  height: 30px;
+  color: var(--color-gray-700);
+  animation: var(--animate-pulse);
+}
+
+[data-theme='dark'] .LoadingLogo {
+  color: var(--color-gray-200);
+}

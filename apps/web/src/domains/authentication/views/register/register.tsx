@@ -1,5 +1,7 @@
 import { FormState } from '@align/core'
 import { Form, FormField } from '@align/core-react'
+import React from 'react'
+import { Link } from 'wouter'
 
 import {
   Box,
@@ -22,6 +24,12 @@ import { AuthFullscreen } from '../../components/auth-full-screen/auth-full-scre
 import { DashedLines } from '../../components/dashed-lines/dashed-lines'
 
 export const Register: AuthenticationView = ({ context: { registerForm }, setState }) => {
+  React.useEffect(() => {
+    return () => {
+      setState(Authentication.Updaters.Template.resetRegisterForm())
+    }
+  }, [])
+
   return (
     <AuthFullscreen>
       <Box maxWidth="md">
@@ -93,6 +101,13 @@ export const Register: AuthenticationView = ({ context: { registerForm }, setSta
             )}
           </Form>
         </Card>
+      </Box>
+
+      <Box position="fixed" bottom="6" translateXNeg="1/2" left="1/2">
+        <span className="SignupCTAText">Already have an account?</span>{' '}
+        <Link to="/login" className="SignupCTALink">
+          Sign in
+        </Link>
       </Box>
     </AuthFullscreen>
   )

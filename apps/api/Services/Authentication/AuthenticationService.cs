@@ -1,13 +1,25 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 namespace Align.Services;
 
-public class AuthenticationService(SignInManager<User> signInManager, UserManager<User> userManager, IUserStore<User> userStore) : IAuthenticationService
+public class AuthenticationService(
+    SignInManager<User> signInManager,
+    UserManager<User> userManager,
+    IUserStore<User> userStore,
+    IUserService userService
+) : IAuthenticationService
 {
     private readonly SignInManager<User> _signInManager = signInManager;
     private readonly UserManager<User> _userManager = userManager;
     private readonly IUserStore<User> _userStore = userStore;
+    private readonly IUserService userService = userService;
+
+    public async Task<UserDTO?> Login(ClaimsPrincipal userClaim)
+    {
+        return await userService.Get(userClaim);
+    }
 
     public async Task<bool> Login(LoginRequestDTO loginRequest)
     {

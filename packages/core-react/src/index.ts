@@ -2,6 +2,10 @@ export * from './http'
 
 export * from './form'
 
+// `async`
+export * from './async/coroutines/debounce'
+export * from './async/coroutines/synchronize'
+
 // `coroutine`
 export * from './coroutine/co-typed-factory'
 export * from './coroutine/coroutine-runner'

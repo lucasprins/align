@@ -12,4 +12,6 @@ const mock = <Value, Error>(
   )
 }
 
-export const Http = { mock }
+const sleep = async (ms?: number) => await new Promise((res) => setTimeout(() => res(1), ms || 250))
+
+export const Http = { mock, sleep }

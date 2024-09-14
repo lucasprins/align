@@ -1,7 +1,7 @@
-import { FormState, Updater } from '@align/core'
-import { FormField } from '@align/core-react'
+import { AsyncState, FormState, Maybe } from '@align/core'
+import { Form, FormField } from '@align/core-react'
 import React from 'react'
-import { Link } from 'wouter'
+import { Link, Redirect } from 'wouter'
 
 import {
   Box,
@@ -21,27 +21,31 @@ import {
   Switch,
 } from '@align/ui'
 
-import { Authentication, AuthenticationView, LoginForm } from '../../authentication.domain'
+import LoadingScreen from '@/components/loading-screen/loading-screen'
+import { Authentication, AuthenticationView } from '../../authentication.domain'
 import { AuthFullscreen } from '../../components/auth-full-screen/auth-full-screen'
 import { DashedLines } from '../../components/dashed-lines/dashed-lines'
 
+import { LoginForm } from '../../authentication.types'
 import './login.css'
 
-export const Login: AuthenticationView = ({ context: { loginForm }, setState, foreignMutations }) => {
-  const [rememberMe, setRememberMe] = React.useState<boolean>(false)
+export const Login: AuthenticationView = ({ context, setState }) => {
+  React.useEffect(() => {
+    return () => {
+      setState(Authentication.Updaters.Template.resetLoginForm())
+    }
+  }, [])
 
-  const setFormState = (updater: Updater<FormState<LoginForm>>) =>
-    setState(Authentication.Updaters.Core.loginForm(updater))
+  if (AsyncState.isLoading(context.user.sync) && !FormState.Assert.isSubmitting(context.loginForm)) {
+    return <LoadingScreen />
+  }
 
-  // if (AsyncState.isLoading(context.user.response)) {
-  //   return null
-  // }
+  if (AsyncState.isLoaded(context.user.sync) && Maybe.isJust(context.user.sync.value)) {
+    return <Redirect to={'/lucasprins/inbox'} />
+  }
 
-  // if (!AsyncState.isLoaded(context.user.response)) {
-  //   return <Redirect href="register" />
-  // }
+  console.log(context)
 
-  console.log(loginForm)
   return (
     <AuthFullscreen>
       <Box width="full" maxWidth="md">
@@ -49,67 +53,97 @@ export const Login: AuthenticationView = ({ context: { loginForm }, setState, fo
           <DashedLines />
           <Logo className="LoginLogo" />
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              setState(Authentication.Updaters.Core.loginForm(FormState.Updaters.toSubmitting()))
-            }}
+          <Form
+            form={context.loginForm}
+            setState={(updater) => setState(Authentication.Updaters.Core.loginForm(updater))}
           >
-            <Flex direction="column" gap={6}>
-              <Heading size={2}>Sign in</Heading>
+            {({ fieldProps }) => (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  setState(Authentication.Updaters.Template.validateLoginForm())
+                }}
+              >
+                <Flex direction="column" gap={6}>
+                  <Heading size={2}>Sign in</Heading>
 
-              <Fieldset>
-                <FieldGroup>
-                  <FormField form={loginForm} field="email" setState={setFormState}>
-                    {({ error, ...field }) => (
-                      <Field>
-                        <Label htmlFor="email">Email</Label>
-                        <Input type="email" id="email" {...field} />
-                        {error && <FieldError>{error}</FieldError>}
-                      </Field>
-                    )}
-                  </FormField>
+                  {Authentication.Operations.isLoginFailed(context) && (
+                    <FieldError>
+                      Please provide a valid email address and password. If you continue to have issues logging into
+                      your account, contact our Support team.
+                    </FieldError>
+                  )}
 
-                  <FormField form={loginForm} field="password" setState={setFormState}>
-                    {({ error, ...field }) => (
-                      <Field>
-                        <Label htmlFor="password">Password</Label>
-                        <Input type="password" id="password" autoComplete="off" {...field} />
-                        {error && <FieldError>{error}</FieldError>}
-                      </Field>
-                    )}
-                  </FormField>
-                </FieldGroup>
-              </Fieldset>
+                  <Fieldset>
+                    <FieldGroup>
+                      <FormField field="email" {...fieldProps}>
+                        {({ error, ...field }) => (
+                          <Field>
+                            <Label htmlFor="email">Email</Label>
+                            <Input type="email" id="email" {...field} />
+                            {error && <FieldError>{error}</FieldError>}
+                          </Field>
+                        )}
+                      </FormField>
 
-              <Flex justify="between" align="center" wrap="wrap">
-                <Flex gap={2}>
-                  <Switch id="remember-me" checked={rememberMe} onCheckedChange={setRememberMe} />
-                  <Label className="RememberMeLabel">Remember me</Label>
+                      <FormField field="password" {...fieldProps}>
+                        {({ error, ...field }) => (
+                          <Field>
+                            <Label htmlFor="password">Password</Label>
+                            <Input type="password" id="password" autoComplete="off" {...field} />
+                            {error && <FieldError>{error}</FieldError>}
+                          </Field>
+                        )}
+                      </FormField>
+                    </FieldGroup>
+                  </Fieldset>
+
+                  <Flex justify="between" align="center" wrap="wrap">
+                    <Flex gap={2}>
+                      <Switch
+                        id="remember-me"
+                        checked={context.loginForm.values.rememberMe}
+                        onCheckedChange={(checked) => {
+                          setState(
+                            Authentication.Updaters.Core.loginForm(
+                              FormState.Updaters.field<LoginForm>()('rememberMe', checked)
+                            )
+                          )
+                        }}
+                      />
+                      <Label className="RememberMeLabel">Remember me</Label>
+                    </Flex>
+
+                    <Link to="forgot-password" className="ForgotPasswordLink">
+                      Forgot password?
+                    </Link>
+                  </Flex>
+
+                  <Stack rowGap={3}>
+                    <Button
+                      type="submit"
+                      variant="dark__white"
+                      fullWidth
+                      disabled={!context.loginForm.isDirty}
+                      loading={FormState.Assert.isSubmitting(context.loginForm)}
+                    >
+                      Get started
+                    </Button>
+
+                    <Flex align="center" columnGap={3}>
+                      <Divider />
+                      <span className="AuthMethodsDividerLabel">OR</span>
+                      <Divider />
+                    </Flex>
+
+                    <Button type="button" fullWidth variant="light" disabled>
+                      Continue with passkey
+                    </Button>
+                  </Stack>
                 </Flex>
-
-                <Link to="forgot-password" className="ForgotPasswordLink">
-                  Forgot password?
-                </Link>
-              </Flex>
-
-              <Stack rowGap={3}>
-                <Button type="submit" variant="dark__white" fullWidth disabled={!loginForm.isDirty}>
-                  Get started
-                </Button>
-
-                <Flex align="center" columnGap={3}>
-                  <Divider />
-                  <span className="AuthMethodsDividerLabel">OR</span>
-                  <Divider />
-                </Flex>
-
-                <Button type="button" fullWidth variant="light" disabled>
-                  Continue with passkey
-                </Button>
-              </Stack>
-            </Flex>
-          </form>
+              </form>
+            )}
+          </Form>
         </Card>
       </Box>
 

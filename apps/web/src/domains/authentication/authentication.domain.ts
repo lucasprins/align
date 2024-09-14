@@ -1,72 +1,111 @@
-import { AsyncState, ForeignMutationsInput, FormState, Maybe, propertyUpdater, unit, Unit, Updater } from '@align/core'
+import {
+  AsyncState,
+  Debounced,
+  ForeignMutationsInput,
+  FormState,
+  Maybe,
+  propertyUpdater,
+  replaceWith,
+  Synchronized,
+  Unit,
+  Updater,
+  Value,
+} from '@align/core'
+
+import { LoginPayload, User } from '@align/api-types'
 import { View } from '@align/core-react'
 
-import { Queryable } from '../../lib/query'
-// import { User } from './domains/entities/user'
+import { CreateWorkspaceForm, LoginForm, RegisterForm } from './authentication.types'
 
-export type LoginForm = {
-  email: string
-  password: string
-}
-
-export type RegisterForm = {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-export type CreateWorkspaceForm = {
-  name: string
-  url: string
-  companySize: string
-  role: string
-}
-
-// TODO : Split into  child domains?
 type Authentication = {
+  user: Synchronized<LoginPayload, Maybe<User>>
+  logout: Synchronized<Unit, boolean>
   loginForm: FormState<LoginForm>
   registerForm: FormState<RegisterForm>
   createWorkspaceForm: FormState<CreateWorkspaceForm>
-
-  // user: Queryable<Unit, User>
 }
 
 const Authentication = {
   Default: (): Authentication => ({
-    loginForm: FormState.Default.idle({ email: '', password: '' }),
+    user: Synchronized.Default({ email: '', password: '', rememberMe: true }, AsyncState.loading()),
+    logout: Synchronized.Default(false),
+    loginForm: FormState.Default.idle({ email: '', password: '', rememberMe: true }),
     registerForm: FormState.Default.idle({ username: '', email: '', password: '', confirmPassword: '' }),
-    createWorkspaceForm: FormState.Default.idle({ name: '', url: '', companySize: '', role: '' }),
-
-    // user: Queryable.Default.Loading(unit),
+    createWorkspaceForm: FormState.Default.idle({
+      name: '',
+      url: Debounced.Default(Synchronized.Default(Value.Default(''))),
+      companySize: '',
+      role: '',
+    }),
   }),
 
   Updaters: {
     Core: {
-      // user: propertyUpdater<Authentication>()('user'),
+      user: propertyUpdater<Authentication>()('user'),
+      logout: propertyUpdater<Authentication>()('logout'),
       loginForm: propertyUpdater<Authentication>()('loginForm'),
       registerForm: propertyUpdater<Authentication>()('registerForm'),
       createWorkspaceForm: propertyUpdater<Authentication>()('createWorkspaceForm'),
     },
 
-    Template: {},
+    Template: {
+      logout: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.logout(Synchronized.Updaters.sync(AsyncState.toLoading()))
+      },
+
+      updateWorkspaceFormUrl: (url: string): Updater<Authentication> => {
+        return Authentication.Updaters.Core.createWorkspaceForm((form) => {
+          return FormState.Updaters.field<CreateWorkspaceForm>()(
+            'url',
+            Debounced.Updaters.Template.value(
+              Synchronized.Updaters.value<Value<string>, boolean>(Value.Updaters.value(replaceWith(url)))
+            )(form.values.url)
+          )(form)
+        })
+      },
+
+      validateLoginForm: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.loginForm(FormState.Updaters.toValidating())
+      },
+
+      resetLoginForm: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.loginForm(replaceWith(Authentication.Default().loginForm))
+      },
+
+      resetRegisterForm: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.registerForm(replaceWith(Authentication.Default().registerForm))
+      },
+    },
 
     Coroutine: {
-      // login: (user: User): Updater<Authentication> => {
-      //   return Authentication.Updaters.Core.user(Queryable.Updaters.response(AsyncState.toLoaded(user)))
-      // },
+      resetUserValue: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.user(
+          Synchronized.Updaters.value(replaceWith(Authentication.Default().user))
+        )
+      },
+      resetUserSync: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.user(Synchronized.Updaters.sync(AsyncState.toUnloaded()))
+      },
+      resetLogout: (): Updater<Authentication> => {
+        return Authentication.Updaters.Core.logout(Synchronized.Updaters.sync(AsyncState.toUnloaded()))
+      },
     },
   },
 
   Operations: {
-    // getUser: (user: Authentication['user']): Maybe<User> =>
-    //   AsyncState.isLoaded(user.response) ? Maybe.just(user.response.value) : Maybe.nothing(),
+    getUser: (user: Authentication['user']): Maybe<User> => {
+      return AsyncState.isLoaded(user.sync) ? user.sync.value : Maybe.nothing()
+    },
+    isLoginFailed: (authentication: Authentication) => {
+      return (
+        FormState.Assert.isSubmitted(authentication.loginForm) &&
+        AsyncState.isLoaded(authentication.user.sync) &&
+        Maybe.isNothing(authentication.user.sync.value)
+      )
+    },
   },
 
-  ForeignMutations: (input: ForeignMutationsInput<AuthenticationReadOnlyContext, AuthenticationWriteableState>) => ({
-    // login: (user: User) => input.setState(Authentication.Updaters.Core.user((_) => AsyncState.Default.loaded(Option.Default.Full(user)))),
-    // logout: () => input.setState(Authentication.Updaters.Core.user(replaceWith(AsyncState.Default.unloaded()))),
-  }),
+  ForeignMutations: (input: ForeignMutationsInput<AuthenticationReadOnlyContext, AuthenticationWriteableState>) => ({}),
 }
 
 export type AuthenticationForeignMutationsExpected = Unit

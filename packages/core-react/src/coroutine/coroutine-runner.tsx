@@ -1,14 +1,14 @@
 import { BasicFunc, BasicUpdater, Unit, unit, Updater } from '@align/core'
 import React from 'react'
 
-import { Template, TemplateWithViewProps } from '../domain/template'
+import { Template, TemplateProps } from '../domain/template'
 import { Coroutine } from './coroutine'
 
 export type CoroutineComponentOptions<context, state> = {
   interval?: number
-  key?: BasicFunc<TemplateWithViewProps<context & state, state, Unit>, string>
+  key?: BasicFunc<TemplateProps<context & state, state, Unit>, string>
   restartWhenFinished?: boolean
-  runFilter?: BasicFunc<TemplateWithViewProps<context & state, state, Unit>, boolean>
+  runFilter?: BasicFunc<TemplateProps<context & state, state, Unit>, boolean>
 }
 
 const Co = Coroutine

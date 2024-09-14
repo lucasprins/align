@@ -5,6 +5,8 @@
   color: var(--color-gray-400);
   top: 43px;
   left: 12px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .InputRoot .WorkspaceUrlInput {

@@ -15,51 +15,54 @@ import {
   IconUser,
 } from '@align/ui'
 
+import { AnimatePresence, motion } from 'framer-motion'
 import { Link, useRoute } from 'wouter'
 
-import { ApplicationLayoutProps, NavigationButtonProps, NavigationLinkProps } from './application-layout-props'
+import {
+  ApplicationLayoutProps,
+  NavigationAvatarProps,
+  NavigationButtonProps,
+  NavigationLinkProps,
+} from './application-layout-props'
 
 import './application-layout.css'
 
-export function ApplicationLayout({ children, workspace }: ApplicationLayoutProps) {
+export function ApplicationLayout({ children, workspace, user, handleLogout }: ApplicationLayoutProps) {
   return (
-    <div className="Application">
-      <header className="ApplicationHeader">
-        <nav className="ApplicationNavigation">
-          <WorkspaceSelector />
+    <AnimatePresence initial={true}>
+      <motion.div className="Application" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <header className="ApplicationHeader">
+          <nav className="ApplicationNavigation">
+            <WorkspaceSelector />
 
-          <Divider className="NavigationDivider" orientation="vertical" />
+            <Divider className="NavigationDivider" orientation="vertical" />
 
-          <ul className="NavigationList">
-            <NavigationLink href={`/${workspace}/issues`}>Issues</NavigationLink>
-            <NavigationLink href={`/${workspace}/projects`}>Projects</NavigationLink>
-            <NavigationLink href={`/${workspace}/cycles`}>Cycles</NavigationLink>
-            <NavigationLink href={`/${workspace}/teams`}>Teams</NavigationLink>
-            <NavigationLink href={`/${workspace}/views`}>Views</NavigationLink>
-          </ul>
+            <ul className="NavigationList">
+              <NavigationLink href={`/${workspace}/issues`}>Issues</NavigationLink>
+              <NavigationLink href={`/${workspace}/projects`}>Projects</NavigationLink>
+              <NavigationLink href={`/${workspace}/cycles`}>Cycles</NavigationLink>
+              <NavigationLink href={`/${workspace}/teams`}>Teams</NavigationLink>
+            </ul>
 
-          <div className="NavigationFiller" />
+            <div className="NavigationFiller" />
 
-          <ul className="NavigationButtons">
-            <NavigationButton kind="icon" icon={IconSearch} />
-            <NavigationButton kind="icon" icon={IconInbox} />
-            <NavigationAvatar />
-          </ul>
-        </nav>
-      </header>
+            <ul className="NavigationButtons">
+              <NavigationButton kind="icon" icon={IconSearch} />
+              <NavigationButton kind="icon" icon={IconInbox} />
+              <NavigationAvatar handleLogout={handleLogout} />
+            </ul>
+          </nav>
+        </header>
 
-      <main className="ApplicationContentWrapper">
-        <div className="ApplicationContent">{children}</div>
-      </main>
-    </div>
+        <main className="ApplicationContentWrapper">
+          <div className="ApplicationContent">{children}</div>
+        </main>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
 function WorkspaceSelector() {
-  {
-    /* TODO : Add as dropdown trigger */
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="WorkspaceSelector">
@@ -125,7 +128,7 @@ function NavigationButton(props: NavigationButtonProps) {
   )
 }
 
-function NavigationAvatar() {
+function NavigationAvatar({ handleLogout }: NavigationAvatarProps) {
   return (
     <DropdownMenu>
       <NavigationButton kind="custom" as="span">
@@ -148,7 +151,7 @@ function NavigationAvatar() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <Icon component={IconLogout} />
           <span>Sign out</span>
         </DropdownMenuItem>
