@@ -14,11 +14,11 @@ public class AuthenticationService(
     private readonly SignInManager<User> _signInManager = signInManager;
     private readonly UserManager<User> _userManager = userManager;
     private readonly IUserStore<User> _userStore = userStore;
-    private readonly IUserService userService = userService;
+    private readonly IUserService _userService = userService;
 
     public async Task<UserDTO?> Login(ClaimsPrincipal userClaim)
     {
-        return await userService.Get(userClaim);
+        return await _userService.Get(userClaim);
     }
 
     public async Task<bool> Login(LoginRequestDTO loginRequest)
@@ -38,13 +38,18 @@ public class AuthenticationService(
         await _signInManager.SignOutAsync();
     }
 
-    public async Task Register(RegisterRequestDTO registerRequest)
+    public async Task<RegistrationResult> Register(RegisterRequestDTO registerRequest)
     {
         string email = registerRequest.Email;
 
         if (string.IsNullOrEmpty(email) || !new EmailAddressAttribute().IsValid(email))
         {
-            throw new ArgumentException("Invalid email.");
+            return RegistrationResult.Failed(RegistrationError.InvalidEmail);
+        }
+
+        if (await _userService.EmailExists(email))
+        {
+            return RegistrationResult.Failed(RegistrationError.DuplicateEmail);
         }
 
         var user = new User();
@@ -57,7 +62,16 @@ public class AuthenticationService(
 
         if (!result.Succeeded)
         {
-            throw new Exception("Failed to register user.");
+            return RegistrationResult.Failed(RegistrationError.IdentityError);
         }
+        
+        var userDTO = await _userService.GetByEmail(registerRequest.Email);
+
+        if (userDTO == null)
+        {
+            return RegistrationResult.Failed(RegistrationError.UserNotFound);
+        }
+
+        return RegistrationResult.Success(userDTO);
     }
 }

@@ -14,6 +14,7 @@ export * from './src/domain/foreign-mutations'
 
 // `form`
 export * from './src/form/form-state'
+export * from './src/form/form-validation'
 
 // `functors`
 export * from './src/functors/either'

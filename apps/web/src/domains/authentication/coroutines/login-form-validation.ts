@@ -1,17 +1,11 @@
-import { FormState } from '@align/core'
+import { defineFormResolver, FormErrors, FormState } from '@align/core'
 
 import { Authentication } from '../authentication.domain'
 import { Co } from './_builder'
 import { LoginForm } from '../authentication.types'
 
-type Resolver<T> = (values: T) => {
-  errors: {
-    [K in keyof T]?: string
-  }
-}
-
-const resolver: Resolver<LoginForm> = (values) => {
-  const errors: { [K in keyof LoginForm]?: string } = {}
+const loginFormResolver = defineFormResolver<LoginForm>((values) => {
+  const errors: FormErrors<LoginForm> = {}
 
   if (!values.email) {
     errors.email = 'Email is required'
@@ -22,10 +16,10 @@ const resolver: Resolver<LoginForm> = (values) => {
   }
 
   return { errors }
-}
+})
 
 export const loginFormValidation = Co.GetState().then((state) => {
-  const { errors } = resolver(state.loginForm.values)
+  const { errors } = loginFormResolver(state.loginForm.values)
 
   console.log(errors)
 

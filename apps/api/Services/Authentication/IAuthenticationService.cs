@@ -7,5 +7,5 @@ public interface IAuthenticationService
     Task<UserDTO?> Login(ClaimsPrincipal user);
     Task<bool> Login(LoginRequestDTO loginRequest);
     Task Logout();
-    Task Register(RegisterRequestDTO registerRequest);
+    Task<RegistrationResult> Register(RegisterRequestDTO registerRequest);
 }

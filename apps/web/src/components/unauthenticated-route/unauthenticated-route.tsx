@@ -3,12 +3,11 @@ import { Redirect } from 'wouter'
 
 import { routes } from '@/lib/routes'
 import LoadingScreen from '../loading-screen/loading-screen'
-import { AuthenticatedRouteProps } from './authenticated-route-props'
+import { UnauthenticatedRouteProps } from './unauthenticated-route-props'
 
-export default function AuthenticatedRoute({ user, children }: AuthenticatedRouteProps) {
+export default function UnauthenticatedRoute({ user, redirectUrl, children }: UnauthenticatedRouteProps) {
   if (AsyncState.isLoaded(user) && Maybe.isJust(user.value)) {
-    // TODO : Add check to see if the workspace is accessible?
-    return children(user.value.value)
+    return <Redirect to={redirectUrl(user.value.value)} />
   }
 
   if (AsyncState.isLoading(user)) {
@@ -19,5 +18,5 @@ export default function AuthenticatedRoute({ user, children }: AuthenticatedRout
     return <Redirect to={routes.auth.login} />
   }
 
-  return <Redirect to={routes.auth.login} />
+  return children
 }

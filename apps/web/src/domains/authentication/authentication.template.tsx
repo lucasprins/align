@@ -1,6 +1,7 @@
 import { Template } from '@align/core-react'
 
 import {
+  Authentication,
   AuthenticationForeignMutationsExpected,
   AuthenticationReadOnlyContext,
   AuthenticationView,
@@ -12,6 +13,8 @@ import {
   AuthenticationValidateLoginFormRunner,
   AuthenticationWorkspaceUrlValidationRunner,
 } from './coroutines/_runners'
+
+import { RegistrationTemplate } from './domains/registration/registration.template'
 
 export const AuthenticationTemplate = Template.Default<
   AuthenticationReadOnlyContext,

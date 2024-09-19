@@ -3,6 +3,7 @@ import {
   Debounced,
   ForeignMutationsInput,
   FormState,
+  Just,
   Maybe,
   propertyUpdater,
   replaceWith,
@@ -15,14 +16,16 @@ import {
 import { LoginPayload, User } from '@align/api-types'
 import { View } from '@align/core-react'
 
-import { CreateWorkspaceForm, LoginForm, RegisterForm } from './authentication.types'
+import { CreateWorkspaceForm, LoginForm } from './authentication.types'
+import { Registration } from './domains/registration/registration.domain'
 
 type Authentication = {
-  user: Synchronized<LoginPayload, Maybe<User>>
-  logout: Synchronized<Unit, boolean>
-  loginForm: FormState<LoginForm>
-  registerForm: FormState<RegisterForm>
-  createWorkspaceForm: FormState<CreateWorkspaceForm>
+  readonly user: Synchronized<LoginPayload, Maybe<User>>
+  readonly logout: Synchronized<Unit, boolean>
+  readonly loginForm: FormState<LoginForm>
+  readonly createWorkspaceForm: FormState<CreateWorkspaceForm>
+
+  readonly registration: Registration
 }
 
 const Authentication = {
@@ -30,13 +33,14 @@ const Authentication = {
     user: Synchronized.Default({ email: '', password: '', rememberMe: true }, AsyncState.loading()),
     logout: Synchronized.Default(false),
     loginForm: FormState.Default.idle({ email: '', password: '', rememberMe: true }),
-    registerForm: FormState.Default.idle({ username: '', email: '', password: '', confirmPassword: '' }),
     createWorkspaceForm: FormState.Default.idle({
       name: '',
       url: Debounced.Default(Synchronized.Default(Value.Default(''))),
       companySize: '',
       role: '',
     }),
+
+    registration: Registration.default(),
   }),
 
   Updaters: {
@@ -44,8 +48,9 @@ const Authentication = {
       user: propertyUpdater<Authentication>()('user'),
       logout: propertyUpdater<Authentication>()('logout'),
       loginForm: propertyUpdater<Authentication>()('loginForm'),
-      registerForm: propertyUpdater<Authentication>()('registerForm'),
       createWorkspaceForm: propertyUpdater<Authentication>()('createWorkspaceForm'),
+
+      registration: propertyUpdater<Authentication>()('registration'),
     },
 
     Template: {
@@ -70,10 +75,6 @@ const Authentication = {
 
       resetLoginForm: (): Updater<Authentication> => {
         return Authentication.Updaters.Core.loginForm(replaceWith(Authentication.Default().loginForm))
-      },
-
-      resetRegisterForm: (): Updater<Authentication> => {
-        return Authentication.Updaters.Core.registerForm(replaceWith(Authentication.Default().registerForm))
       },
     },
 
@@ -105,7 +106,14 @@ const Authentication = {
     },
   },
 
-  ForeignMutations: (input: ForeignMutationsInput<AuthenticationReadOnlyContext, AuthenticationWriteableState>) => ({}),
+  ForeignMutations: (input: ForeignMutationsInput<AuthenticationReadOnlyContext, AuthenticationWriteableState>) => ({
+    login: (user: User) =>
+      input.setState(
+        Authentication.Updaters.Core.user(
+          Synchronized.Updaters.sync(() => AsyncState.loaded<Maybe<User>>(Maybe.just(user)))
+        )
+      ),
+  }),
 }
 
 export type AuthenticationForeignMutationsExpected = Unit

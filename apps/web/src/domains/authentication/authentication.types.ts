@@ -6,13 +6,6 @@ export type LoginForm = {
   rememberMe: boolean
 }
 
-export type RegisterForm = {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
 export type CreateWorkspaceForm = {
   name: string
   url: Debounced<Synchronized<Value<string>, boolean>>

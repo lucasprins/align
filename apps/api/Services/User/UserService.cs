@@ -8,23 +8,25 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
     private readonly IUserRepository _userRepository = userRepository;
     private readonly UserManager<User> _userManager = userManager;
 
-    public async Task<UserDTO?> Get(ClaimsPrincipal User)
+    public async Task<UserDTO?> Get(ClaimsPrincipal claim)
     {
-        var userId = _userManager.GetUserId(User);
+        var userId = _userManager.GetUserId(claim);
 
         if (!string.IsNullOrEmpty(userId))
         {
-            var user = await _userRepository.Get(Guid.Parse(userId));
-
-            if (user != null)
-            {
-                var workspaceMemberShips = user.WorkspaceMemberships
-                    .Select(wm => UserWorkspaceMembershipDTO.Create(wm, WorkspaceDTO.Create(wm.Workspace)));
-
-                return UserDTO.Create(user, workspaceMemberShips);
-            }
+            return UserDTO.MaybeCreate(await _userRepository.GetById(Guid.Parse(userId)));
         }
 
         return null;
+    }
+
+    public async Task<UserDTO?> GetByEmail(string email)
+    {
+        return UserDTO.MaybeCreate(await _userRepository.GetByEmail(email));
+    }
+
+    public Task<bool> EmailExists(string email)
+    {
+        return _userRepository.EmailExists(email);
     }
 }

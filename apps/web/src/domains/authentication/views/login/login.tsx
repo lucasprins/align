@@ -125,7 +125,10 @@ export const Login: AuthenticationView = ({ context, setState }) => {
                       variant="dark__white"
                       fullWidth
                       disabled={!context.loginForm.isDirty}
-                      loading={FormState.Assert.isSubmitting(context.loginForm)}
+                      loading={
+                        FormState.Assert.isValidating(context.loginForm) ||
+                        FormState.Assert.isSubmitting(context.loginForm)
+                      }
                     >
                       Get started
                     </Button>

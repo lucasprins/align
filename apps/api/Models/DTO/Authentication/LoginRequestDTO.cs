@@ -6,8 +6,8 @@ public record LoginRequestDTO
     public required string Password { get; init; }
     public required bool RememberMe { get; init; }
 
-    public static bool IsValid(LoginRequestDTO dto)
+    public bool IsValid()
     {
-        return !string.IsNullOrEmpty(dto.Email) && !string.IsNullOrEmpty(dto.Password);
+        return !string.IsNullOrEmpty(this.Email) && !string.IsNullOrEmpty(this.Password);
     }
 }

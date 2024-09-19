@@ -208,9 +208,8 @@ export const Coroutine = {
   ): Coroutine<context, state, Either<error, result>> =>
     Coroutine.Create(([_, __]) => {
       let promiseResult: { kind: 'resolve'; result: result } | { kind: 'reject'; error: error } | undefined = undefined
-      const started = Date.now();
+      const started = Date.now()
 
-        console.log(`co::await::launched ${debugName}`);
       setTimeout(() =>
         promise({})
           .then((result) => {

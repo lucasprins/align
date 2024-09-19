@@ -9,7 +9,7 @@ public record UserDTO
     public required string? FullName { get; init; }
     public required IEnumerable<UserWorkspaceMembershipDTO> WorkspaceMemberships { get; init; }
 
-    public static UserDTO Create(User user, IEnumerable<UserWorkspaceMembershipDTO> workspaceMemberships)
+    public static UserDTO Create(User user)
     {
         return new()
         {
@@ -18,7 +18,13 @@ public record UserDTO
             AvatarUrl = user.AvatarUrl,
             UserName = user.UserName,
             FullName = user.FullName,
-            WorkspaceMemberships = workspaceMemberships,
+            WorkspaceMemberships = user.WorkspaceMemberships
+                .Select(wm => UserWorkspaceMembershipDTO.Create(wm, WorkspaceDTO.Create(wm.Workspace)))
         };
+    }
+
+    public static UserDTO? MaybeCreate(User? user)
+    {
+        return user != null ? Create(user) : null;
     }
 }

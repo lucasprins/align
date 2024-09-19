@@ -3,20 +3,22 @@ import { unit } from '@align/core'
 import React from 'react'
 import { Route, Router, Switch } from 'wouter'
 
-import { Authentication } from '@domains/authentication/authentication.domain'
-import { CreateWorkspace } from '@domains/authentication/views/create-workspace/create-workspace'
-import { Login } from '@domains/authentication/views/login/login'
-import { Register } from '@domains/authentication/views/register/register'
-import { ApplicationLayout } from './components/application-layout/application-layout'
-import { ApplicationLayoutProps } from './components/application-layout/application-layout-props'
-import AuthenticatedRoute from './components/authenticated-route/authenticated-route'
-import { AuthenticationTemplate } from './domains/authentication/authentication.template'
-
 import {
   AuthenticationLoginRunner,
   AuthenticationLogoutCleanupRunner,
   AuthenticationLogoutRunner,
 } from './domains/authentication/coroutines/_runners'
+
+import { Authentication } from '@domains/authentication/authentication.domain'
+import { CreateWorkspace } from '@domains/authentication/views/create-workspace/create-workspace'
+import { Login } from '@domains/authentication/views/login/login'
+import { ApplicationLayout } from './components/application-layout/application-layout'
+import { ApplicationLayoutProps } from './components/application-layout/application-layout-props'
+import AuthenticatedRoute from './components/authenticated-route/authenticated-route'
+import UnauthenticatedRoute from './components/unauthenticated-route/unauthenticated-route'
+import { AuthenticationTemplate } from './domains/authentication/authentication.template'
+import { RegistrationTemplateEmbedded } from './domains/authentication/domains/registration/registration.template'
+import { SignUp } from './domains/authentication/domains/registration/views/sign-up'
 
 export const Application = () => {
   const [authentication, setAuthentication] = React.useState(Authentication.Default())
@@ -35,6 +37,8 @@ export const Application = () => {
     },
     [authentication]
   )
+
+  console.log('authentication', authentication)
 
   return (
     <>
@@ -75,12 +79,20 @@ export const Application = () => {
 
           <Route path="/sign-up">
             {() => (
-              <AuthenticationTemplate
-                context={authentication}
-                setState={setAuthentication}
-                foreignMutations={unit}
-                view={Register}
-              />
+              <UnauthenticatedRoute
+                user={authentication.user.sync}
+                redirectUrl={(user) => {
+                  // TODO : Use user's workspace to determine the redirect URL and move to a shared util for reuse
+                  return '/lucasprins/inbox'
+                }}
+              >
+                <RegistrationTemplateEmbedded
+                  context={authentication}
+                  setState={setAuthentication}
+                  foreignMutations={{ login: authenticationForeignMutations.login }}
+                  view={SignUp}
+                />
+              </UnauthenticatedRoute>
             )}
           </Route>
 
