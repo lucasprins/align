@@ -1,9 +1,10 @@
 namespace Align.Services;
 
-public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, IValidationService validationService) : IWorkspaceService
+public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, IValidationService validationService, IUserService userService) : IWorkspaceService
 {
     private readonly IWorkspaceRepository _workspaceRepository = workspaceRepository;
     private readonly IValidationService _validationService = validationService;
+    private readonly IUserService _userService = userService;
 
     public async Task<WorkspaceDTO?> Get(Guid id)
     {
@@ -11,7 +12,7 @@ public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, 
         return workspace == null ? null : WorkspaceDTO.Create(workspace);
     }
 
-    public async Task<CreateWorkspaceResult> Create(CreateWorkspaceDTO createWorkspaceDTO)
+    public async Task<CreateWorkspaceResult> Create(CreateWorkspaceDTO createWorkspaceDTO, Guid userId)
     {
         if (!await IsUrlAvailable(createWorkspaceDTO.Url))
         {
@@ -20,7 +21,7 @@ public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, 
 
         if (!_validationService.ValidateWorkspaceUrl(createWorkspaceDTO.Url))
         {
-            return CreateWorkspaceResult.Failed(WorkspaceValidationError.InvalidName);
+            return CreateWorkspaceResult.Failed(WorkspaceValidationError.InvalidUrl);
         }
 
         Workspace workspace = new()
@@ -29,13 +30,20 @@ public partial class WorkspaceService(IWorkspaceRepository workspaceRepository, 
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
             Name = createWorkspaceDTO.Name,
-            Url = createWorkspaceDTO.Url,
-            LogoUrl = createWorkspaceDTO.LogoUrl,
+            Url = createWorkspaceDTO.Url
         };
 
         await _workspaceRepository.Add(workspace);
 
-        return CreateWorkspaceResult.Success(WorkspaceDTO.Create(workspace));
+        var addedUserToWorkspace = await _workspaceRepository
+            .AddUserToWorkspace(workspace.Id, userId, WorkspaceMemberRole.Admin);
+
+        return CreateWorkspaceResult.Success(
+            WorkspaceDTO.Create(workspace),
+            addedUserToWorkspace
+                ? await _userService.GetById(userId)
+                : null
+        );
     }
 
     public async Task<bool> IsUrlAvailable(string url)

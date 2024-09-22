@@ -20,6 +20,11 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         return null;
     }
 
+    public async Task<UserDTO?> GetById(Guid id)
+    {
+        return UserDTO.MaybeCreate(await _userRepository.GetById(id));
+    }
+
     public async Task<UserDTO?> GetByEmail(string email)
     {
         return UserDTO.MaybeCreate(await _userRepository.GetByEmail(email));

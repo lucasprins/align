@@ -140,7 +140,7 @@ namespace api.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("WorkspaceMember");
+                    b.ToTable("WorkspaceMembers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

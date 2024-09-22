@@ -5,10 +5,3 @@ export type LoginForm = {
   password: string
   rememberMe: boolean
 }
-
-export type CreateWorkspaceForm = {
-  name: string
-  url: Debounced<Synchronized<Value<string>, boolean>>
-  companySize: string
-  role: string
-}

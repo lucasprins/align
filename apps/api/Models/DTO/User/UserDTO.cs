@@ -7,7 +7,7 @@ public record UserDTO
     public required string? AvatarUrl { get; init; }
     public required string? UserName { get; init; }
     public required string? FullName { get; init; }
-    public required IEnumerable<UserWorkspaceMembershipDTO> WorkspaceMemberships { get; init; }
+    public required IEnumerable<UserWorkspaceMembershipDTO> WorkspaceMemberships { get; set; }
 
     public static UserDTO Create(User user)
     {

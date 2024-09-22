@@ -6,6 +6,7 @@ namespace Align.Data;
 public class DatabaseContext(DbContextOptions<DatabaseContext> options) : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<Workspace> Workspaces { get; set; }
+    public DbSet<WorkspaceMember> WorkspaceMembers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

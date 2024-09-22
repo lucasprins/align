@@ -1,4 +1,4 @@
-import { AsyncState, Debounced, FormState } from '@align/core'
+import { AsyncState, FormState } from '@align/core'
 
 import { AuthenticationForeignMutationsExpected } from '../authentication.domain'
 import { Co } from './_builder'
@@ -7,7 +7,6 @@ import { login } from './login'
 import { loginFormSubmission } from './login-form-submission'
 import { loginFormValidation } from './login-form-validation'
 import { logout, logoutCleanup } from './logout'
-import { workspaceUrlValidation } from './workspace-url-validation'
 
 export const AuthenticationLoginRunner = Co.Template<AuthenticationForeignMutationsExpected>(login, {
   interval: 15,
@@ -37,13 +36,5 @@ export const AuthenticationSubmitLoginFormRunner = Co.Template<AuthenticationFor
   {
     interval: 15,
     runFilter: (props) => FormState.Assert.isSubmitting(props.context.loginForm),
-  }
-)
-
-export const AuthenticationWorkspaceUrlValidationRunner = Co.Template<AuthenticationForeignMutationsExpected>(
-  workspaceUrlValidation,
-  {
-    interval: 10,
-    runFilter: (props) => Debounced.Operations.shouldCoroutineRun(props.context.createWorkspaceForm.values.url),
   }
 )

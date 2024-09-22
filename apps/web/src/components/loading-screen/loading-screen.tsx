@@ -1,9 +1,9 @@
-import { Flex, Logo, Text } from '@align/ui'
+import { Flex, Logo } from '@align/ui'
 import React from 'react'
 
 import './loading-screen.css'
 
-export default function LoadingScreen() {
+const LoadingScreen: React.FC = () => {
   const [showLogo, setShowLogo] = React.useState(false)
 
   React.useEffect(() => {
@@ -24,3 +24,5 @@ export default function LoadingScreen() {
     </Flex>
   )
 }
+
+export default LoadingScreen

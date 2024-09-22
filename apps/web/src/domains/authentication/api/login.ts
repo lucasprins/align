@@ -1,7 +1,7 @@
 import { LoginPayload, User } from '@align/api-types'
 import { Maybe } from '@align/core'
 
-import { getEndpointUrl } from '@/lib/api'
+import { getEndpointUrl } from '#/lib/api'
 import { AuthenticationEndpoints } from '../authentication.api'
 
 export const login = async (payload: LoginPayload): Promise<Maybe<User>> => {
@@ -16,8 +16,6 @@ export const login = async (payload: LoginPayload): Promise<Maybe<User>> => {
         'Content-Type': 'application/json',
       },
     })
-
-    console.log('response', response)
 
     if (response.ok) {
       return Maybe.just((await response.json()) as User)

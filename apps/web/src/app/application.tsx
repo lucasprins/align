@@ -7,18 +7,21 @@ import {
   AuthenticationLoginRunner,
   AuthenticationLogoutCleanupRunner,
   AuthenticationLogoutRunner,
-} from './domains/authentication/coroutines/_runners'
+} from '#/domains/authentication/coroutines/_runners'
 
-import { Authentication } from '@domains/authentication/authentication.domain'
-import { CreateWorkspace } from '@domains/authentication/views/create-workspace/create-workspace'
-import { Login } from '@domains/authentication/views/login/login'
-import { ApplicationLayout } from './components/application-layout/application-layout'
-import { ApplicationLayoutProps } from './components/application-layout/application-layout-props'
-import AuthenticatedRoute from './components/authenticated-route/authenticated-route'
-import UnauthenticatedRoute from './components/unauthenticated-route/unauthenticated-route'
-import { AuthenticationTemplate } from './domains/authentication/authentication.template'
-import { RegistrationTemplateEmbedded } from './domains/authentication/domains/registration/registration.template'
-import { SignUp } from './domains/authentication/domains/registration/views/sign-up'
+import { ApplicationLayout } from '#/components/application-layout/application-layout'
+import { ApplicationLayoutProps } from '#/components/application-layout/application-layout-props'
+import AuthenticatedRoute from '#/components/authenticated-route/authenticated-route'
+import UnauthenticatedRoute from '#/components/unauthenticated-route/unauthenticated-route'
+import { Authentication } from '#/domains/authentication/authentication.domain'
+import { AuthenticationTemplate } from '#/domains/authentication/authentication.template'
+import { RegistrationTemplateEmbedded } from '#/domains/authentication/domains/registration/registration.template'
+import { SignUp } from '#/domains/authentication/domains/registration/views/sign-up'
+import { WorkspaceCreationTemplateEmbedded } from '#/domains/authentication/domains/workspace-creation/template'
+import CreateWorkspace from '#/domains/authentication/domains/workspace-creation/views/create-workspace/create-workspace'
+import { Login } from '#/domains/authentication/views/login/login'
+import { getWorkspaceRedirectUrl } from '#/lib/user'
+import PageNotFound from './404'
 
 export const Application = () => {
   const [authentication, setAuthentication] = React.useState(Authentication.Default())
@@ -65,27 +68,22 @@ export const Application = () => {
 
       <Router>
         <Switch>
-          {/* Authentication */}
           <Route path="/login">
-            {(params) => (
-              <AuthenticationTemplate
-                context={authentication}
-                setState={setAuthentication}
-                foreignMutations={unit}
-                view={Login}
-              />
+            {() => (
+              <UnauthenticatedRoute user={authentication.user.sync} redirectUrl={getWorkspaceRedirectUrl}>
+                <AuthenticationTemplate
+                  context={authentication}
+                  setState={setAuthentication}
+                  foreignMutations={unit}
+                  view={Login}
+                />
+              </UnauthenticatedRoute>
             )}
           </Route>
 
           <Route path="/sign-up">
             {() => (
-              <UnauthenticatedRoute
-                user={authentication.user.sync}
-                redirectUrl={(user) => {
-                  // TODO : Use user's workspace to determine the redirect URL and move to a shared util for reuse
-                  return '/lucasprins/inbox'
-                }}
-              >
+              <UnauthenticatedRoute user={authentication.user.sync} redirectUrl={getWorkspaceRedirectUrl}>
                 <RegistrationTemplateEmbedded
                   context={authentication}
                   setState={setAuthentication}
@@ -98,19 +96,21 @@ export const Application = () => {
 
           <Route path="/create-workspace">
             {() => (
-              // TODO? : Split into subdomain of workspaces instead of auth
-              <AuthenticationTemplate
+              <WorkspaceCreationTemplateEmbedded
+                view={CreateWorkspace}
                 context={authentication}
                 setState={setAuthentication}
-                foreignMutations={unit}
-                view={CreateWorkspace}
+                foreignMutations={{
+                  login: authenticationForeignMutations.login,
+                  logout: authenticationForeignMutations.logout,
+                }}
               />
             )}
           </Route>
 
           <Route path="/:workspace/inbox">
             {(params) => (
-              <AuthenticatedRoute user={authentication.user.sync}>
+              <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
                   <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
                 )}
@@ -120,7 +120,7 @@ export const Application = () => {
 
           <Route path="/:workspace/issues">
             {(params) => (
-              <AuthenticatedRoute user={authentication.user.sync}>
+              <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
                   <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
                 )}
@@ -130,7 +130,7 @@ export const Application = () => {
 
           <Route path="/:workspace/projects">
             {(params) => (
-              <AuthenticatedRoute user={authentication.user.sync}>
+              <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
                   <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
                 )}
@@ -140,7 +140,7 @@ export const Application = () => {
 
           <Route path="/:workspace/cycles">
             {(params) => (
-              <AuthenticatedRoute user={authentication.user.sync}>
+              <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
                   <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
                 )}
@@ -150,12 +150,16 @@ export const Application = () => {
 
           <Route path="/:workspace/teams">
             {(params) => (
-              <AuthenticatedRoute user={authentication.user.sync}>
+              <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
                   <ApplicationLayout {...getApplicationLayoutProps(params.workspace, user)}></ApplicationLayout>
                 )}
               </AuthenticatedRoute>
             )}
+          </Route>
+
+          <Route>
+            <PageNotFound />
           </Route>
         </Switch>
       </Router>

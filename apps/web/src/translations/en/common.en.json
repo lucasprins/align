@@ -1,0 +1,11 @@
+{
+  "app": "Align",
+
+  "404": {
+    "message": "404 : Page not found"
+  },
+
+  "accessDenied": {
+    "message": "You don't have access to this workspace. <br /> Please contact a workspace admin to gain access."
+  }
+}

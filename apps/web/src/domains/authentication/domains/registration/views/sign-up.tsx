@@ -19,8 +19,8 @@ import {
   Text,
 } from '@align/ui'
 
-import { AuthFullscreen } from '@/domains/authentication/components/auth-full-screen/auth-full-screen'
-import { DashedLines } from '@/domains/authentication/components/dashed-lines/dashed-lines'
+import { AuthFullscreen } from '#/domains/authentication/components/auth-full-screen/auth-full-screen'
+import { DashedLines } from '#/domains/authentication/components/dashed-lines/dashed-lines'
 import { RegistrationError } from '@align/api-types'
 import { Registration, RegistrationView } from '../registration.domain'
 

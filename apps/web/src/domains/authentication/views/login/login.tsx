@@ -21,12 +21,12 @@ import {
   Switch,
 } from '@align/ui'
 
-import LoadingScreen from '@/components/loading-screen/loading-screen'
+import LoadingScreen from '#/components/loading-screen/loading-screen'
 import { Authentication, AuthenticationView } from '../../authentication.domain'
+import { LoginForm } from '../../authentication.types'
 import { AuthFullscreen } from '../../components/auth-full-screen/auth-full-screen'
 import { DashedLines } from '../../components/dashed-lines/dashed-lines'
 
-import { LoginForm } from '../../authentication.types'
 import './login.css'
 
 export const Login: AuthenticationView = ({ context, setState }) => {
@@ -67,7 +67,7 @@ export const Login: AuthenticationView = ({ context, setState }) => {
                 <Flex direction="column" gap={6}>
                   <Heading size={2}>Sign in</Heading>
 
-                  {Authentication.Operations.isLoginFailed(context) && (
+                  {Authentication.Operations.hasLoginFailed(context) && (
                     <FieldError>
                       Please provide a valid email address and password. If you continue to have issues logging into
                       your account, contact our Support team.

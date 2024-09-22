@@ -19,7 +19,7 @@ export type Registration = {
 }
 
 export const Registration = {
-  default: (): Registration => {
+  Default: (): Registration => {
     return {
       form: FormState.Default.idle<RegisterForm>({ email: '', password: '', confirmPassword: '' }),
       result: Synchronized.Default({ email: '', password: '' }),
@@ -36,7 +36,7 @@ export const Registration = {
 
     Template: {
       cleanup: (): Updater<Registration> => {
-        return Updater<Registration>(replaceWith(Registration.default()))
+        return Updater<Registration>(replaceWith(Registration.Default()))
       },
       validateForm: (): Updater<Registration> => {
         return Registration.Updaters.Core.form(FormState.Updaters.toValidating())

@@ -1,3 +1,6 @@
+import { AnimatePresence, motion } from 'framer-motion'
+import { Link, useRoute } from 'wouter'
+
 import {
   Divider,
   DropdownMenu,
@@ -6,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Icon,
+  IconCheck,
   IconChevronDown,
   IconInbox,
   IconLogout,
@@ -15,15 +19,16 @@ import {
   IconUser,
 } from '@align/ui'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { Link, useRoute } from 'wouter'
-
 import {
   ApplicationLayoutProps,
   NavigationAvatarProps,
   NavigationButtonProps,
   NavigationLinkProps,
+  WorkspaceSelectorProps,
 } from './application-layout-props'
+
+import { getInitials } from '#/lib/name'
+import { routes } from '#/lib/routes'
 
 import './application-layout.css'
 
@@ -33,7 +38,7 @@ export function ApplicationLayout({ children, workspace, user, handleLogout }: A
       <motion.div className="Application" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <header className="ApplicationHeader">
           <nav className="ApplicationNavigation">
-            <WorkspaceSelector />
+            <WorkspaceSelector workspace={workspace} user={user} />
 
             <Divider className="NavigationDivider" orientation="vertical" />
 
@@ -49,55 +54,81 @@ export function ApplicationLayout({ children, workspace, user, handleLogout }: A
             <ul className="NavigationButtons">
               <NavigationButton kind="icon" icon={IconSearch} />
               <NavigationButton kind="icon" icon={IconInbox} />
-              <NavigationAvatar handleLogout={handleLogout} />
+              <NavigationAvatar workspace={workspace} user={user} handleLogout={handleLogout} />
             </ul>
           </nav>
         </header>
 
         <main className="ApplicationContentWrapper">
-          <div className="ApplicationContent">{children}</div>
+          <div className="ApplicationContent">
+            {children}
+
+            {workspace}
+          </div>
         </main>
       </motion.div>
     </AnimatePresence>
   )
 }
 
-function WorkspaceSelector() {
+function WorkspaceSelector({ user, workspace }: WorkspaceSelectorProps) {
+  const activeWorkspace = user.workspaceMemberships.find((w) => w.workspace.url === workspace)
+
+  if (!activeWorkspace) {
+    throw new Error("Something is very wrong. User is in a workspace which they don't have access to.")
+  }
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="WorkspaceSelector">
+      <DropdownMenuTrigger className="WorkspaceSelectorTrigger">
         <span className="WorkspaceSelectorAvatar">
-          <span>WN</span>
-
-          {/* TODO : Get current workspace as prop so the avatar can be rendered (if present) */}
+          <span>{getInitials(activeWorkspace.workspace.name)}</span>
           {/* <img className="WorkspaceSelectorAvatarImage" src="https://catalyst.tailwindui.com/tailwind-logo.svg" /> */}
         </span>
 
-        <span className="WorkspaceSelectorTitle">Workspace Name</span>
+        <span className="WorkspaceSelectorTitle">{activeWorkspace.workspace.name}</span>
 
         <IconChevronDown className="WorkspaceSelectorIcon" />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start">
-        <DropdownMenuItem>
-          <Icon component={IconSettings} />
-          <span>Settings</span>
+      <DropdownMenuContent align="start" className="WorkspaceSelectorContent">
+        <DropdownMenuItem asChild>
+          <Link to={routes.workspace.settings(workspace).index}>
+            <Icon component={IconSettings} />
+            <span>Settings</span>
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <span className="WorkspaceSelectorAvatar WorkspaceSelectorAvatarSmall">
-            <span>WN</span>
-          </span>
-          <span>Workspace Name</span>
-        </DropdownMenuItem>
+        {user.workspaceMemberships.map((membership) => {
+          const isActiveWorkspace = membership.workspace.url === workspace
+
+          return (
+            <DropdownMenuItem
+              onClick={() => {
+                if (!isActiveWorkspace) {
+                  window.location.assign(routes.workspace.inbox(membership.workspace.url))
+                }
+              }}
+            >
+              <span className="WorkspaceSelectorAvatar WorkspaceSelectorAvatarSmall">
+                <span>{getInitials(membership.workspace.name)}</span>
+              </span>
+              <span>{membership.workspace.name}</span>
+
+              {isActiveWorkspace && <Icon component={IconCheck} className="ActiveWorkspaceIndicator" />}
+            </DropdownMenuItem>
+          )
+        })}
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <Icon component={IconPlus} />
-          <span>New workspace</span>
+        <DropdownMenuItem asChild>
+          <Link to={routes.auth.createWorkspace}>
+            <Icon component={IconPlus} />
+            <span>New workspace</span>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -128,7 +159,7 @@ function NavigationButton(props: NavigationButtonProps) {
   )
 }
 
-function NavigationAvatar({ handleLogout }: NavigationAvatarProps) {
+function NavigationAvatar({ user, workspace, handleLogout }: NavigationAvatarProps) {
   return (
     <DropdownMenu>
       <NavigationButton kind="custom" as="span">
@@ -139,14 +170,18 @@ function NavigationAvatar({ handleLogout }: NavigationAvatarProps) {
       </NavigationButton>
 
       <DropdownMenuContent align="end" className="NavigationAvatarMenu">
-        <DropdownMenuItem>
-          <Icon component={IconUser} />
-          <span>Profile</span>
+        <DropdownMenuItem asChild>
+          <Link to={routes.workspace.settings(workspace).account.profile}>
+            <Icon component={IconUser} />
+            <span>Profile</span>
+          </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem>
-          <Icon component={IconSettings} />
-          <span>Settings</span>
+        <DropdownMenuItem asChild>
+          <Link to={routes.workspace.settings(workspace).account.preferences}>
+            <Icon component={IconUser} />
+            <span>Preferences</span>
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />

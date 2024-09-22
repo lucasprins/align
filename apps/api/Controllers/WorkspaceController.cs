@@ -6,9 +6,10 @@ namespace Align.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkspaceController(IWorkspaceService workspaceService) : ControllerBase
+    public class WorkspaceController(IWorkspaceService workspaceService, IUserService userService) : ControllerBase
     {
         private readonly IWorkspaceService _workspaceService = workspaceService;
+        private readonly IUserService _userService = userService;
 
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkspaceDTO>> GetWorkspace(Guid id)
@@ -32,7 +33,14 @@ namespace Align.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateWorkspaceResult>> CreateWorkspace([FromBody] CreateWorkspaceDTO createWorkspaceDTO)
         {
-            return await _workspaceService.Create(createWorkspaceDTO);
+            var user = await _userService.Get(HttpContext.User);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            return await _workspaceService.Create(createWorkspaceDTO, user.Id);
         }
 
         // [HttpGet("test")]

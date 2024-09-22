@@ -1,5 +1,7 @@
-import { AsyncState, Debounced, FormState, replaceWith, Synchronized } from '@align/core'
+import { AsyncState, Maybe } from '@align/core'
 import { Form, FormField } from '@align/core-react'
+import React from 'react'
+import { Redirect } from 'wouter'
 
 import {
   Box,
@@ -12,6 +14,9 @@ import {
   Fieldset,
   Flex,
   Heading,
+  Icon,
+  IconCheck,
+  IconX,
   Input,
   Label,
   Select,
@@ -23,19 +28,41 @@ import {
   Text,
 } from '@align/ui'
 
-import { useTheme } from '@/lib/theme'
-import { Authentication, AuthenticationView, CreateWorkspaceForm } from '../../authentication.domain'
-import { AuthFullscreen } from '../../components/auth-full-screen/auth-full-screen'
-import { DashedLines } from '../../components/dashed-lines/dashed-lines'
+import { AuthFullscreen } from '#/domains/authentication/components/auth-full-screen/auth-full-screen'
+import { DashedLines } from '#/domains/authentication/components/dashed-lines/dashed-lines'
+import { routes } from '#/lib/routes'
+import { WorkspaceCreation, WorkspaceCreationView } from '../../domain'
+import { WorkspaceUrlIndicatorProps } from './create-workspace-props'
 
 import './create-workspace.css'
 
-export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
-  const { theme, setTheme } = useTheme()
+const CreateWorkspace: WorkspaceCreationView = ({ context, setState, foreignMutations }) => {
+  if (
+    AsyncState.isLoaded(context.result.sync) &&
+    Maybe.isJust(context.result.sync.value) &&
+    context.result.sync.value.value.isSuccess
+  ) {
+    const result = context.result.sync.value.value
 
-  // console.log(createWorkspaceForm)
+    if (result.user) {
+      foreignMutations.login(result.user)
+      return <Redirect to={routes.workspace.inbox(result.workspace.url)} />
+    } else {
+      window.location.reload()
+      return <Redirect to={routes.auth.login} />
+    }
+  }
 
-  console.log(context)
+  return <CreateWorkspaceView context={context} setState={setState} foreignMutations={foreignMutations} />
+}
+
+const CreateWorkspaceView: WorkspaceCreationView = ({ context, setState }) => {
+  // const { theme, setTheme } = useTheme()
+
+  const handleSubmitForm = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setState(WorkspaceCreation.Updaters.Template.validateForm())
+  }, [])
 
   return (
     <AuthFullscreen>
@@ -43,12 +70,9 @@ export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
         <Card>
           <DashedLines />
 
-          <Form
-            form={context.createWorkspaceForm}
-            setState={(updater) => setState(Authentication.Updaters.Core.createWorkspaceForm(updater))}
-          >
+          <Form form={context.form} setState={(updater) => setState(WorkspaceCreation.Updaters.Core.form(updater))}>
             {({ fieldProps }) => (
-              <form onSubmit={(e) => e.preventDefault()}>
+              <form onSubmit={handleSubmitForm}>
                 <Flex direction="column" gap={6}>
                   <Box position="absolute" top="-9" left="1/2" translateXNeg="1/2">
                     <Stack gap={3}>
@@ -80,15 +104,18 @@ export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
                               className="WorkspaceUrlInput"
                               value={value.value}
                               onChange={(e) => {
-                                setState(Authentication.Updaters.Template.updateWorkspaceFormUrl(e.target.value))
+                                setState(WorkspaceCreation.Updaters.Template.setWorkspaceFormUrl(e.target.value))
                               }}
                             />
                             <span className="WorkspaceUrlPrefix">align.com/</span>
 
-                            {AsyncState.isLoaded(context.createWorkspaceForm.values.url.sync) &&
-                              context.createWorkspaceForm.values.url.sync.value === false && (
-                                <FieldError>Workspace URL is already taken</FieldError>
-                              )}
+                            <WorkspaceUrlIndicator
+                              kind={WorkspaceCreation.Operations.getWorkspaceUrlAvailability(context)}
+                            />
+
+                            {WorkspaceCreation.Operations.isWorkspaceUrlTaken(context) && (
+                              <FieldError>Workspace URL is already taken</FieldError>
+                            )}
 
                             {error && <FieldError>{error}</FieldError>}
                           </Field>
@@ -155,25 +182,19 @@ export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
                     type="submit"
                     variant="dark__white"
                     fullWidth
-                    loading={FormState.Assert.isValidating(context.createWorkspaceForm)}
-                    onClick={() => {
-                      setState(Authentication.Updaters.Core.createWorkspaceForm(FormState.Updaters.toValidating()))
-
-                      setTimeout(() => {
-                        setState(Authentication.Updaters.Core.createWorkspaceForm(FormState.Updaters.toInvalid({})))
-                      }, 2000)
-                    }}
+                    disabled={!WorkspaceCreation.Operations.canSubmitForm(context)}
+                    loading={WorkspaceCreation.Operations.isFormLoading(context)}
                   >
                     Create workspace
                   </Button>
 
-                  <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('light')}>
+                  {/* <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('light')}>
                     Light
                   </Button>
 
                   <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('dark')}>
                     Dark
-                  </Button>
+                  </Button> */}
                 </Flex>
               </form>
             )}
@@ -183,3 +204,15 @@ export const CreateWorkspace: AuthenticationView = ({ context, setState }) => {
     </AuthFullscreen>
   )
 }
+
+const WorkspaceUrlIndicator: React.FC<WorkspaceUrlIndicatorProps> = ({ kind }) => {
+  if (kind === 'unknown') return null
+
+  return (
+    <Flex className="WorkspaceUrlIndicator" align="center" justify="center" data-status={kind}>
+      {kind === 'available' ? <Icon component={IconCheck} /> : kind === 'taken' && <Icon component={IconX} />}
+    </Flex>
+  )
+}
+
+export default CreateWorkspace

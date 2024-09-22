@@ -1,0 +1,35 @@
+.WorkspaceUrlPrefix {
+  font-size: var(--text-size-sm);
+  line-height: 1;
+  position: absolute;
+  color: var(--color-gray-400);
+  top: 43px;
+  left: 12px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.InputRoot .WorkspaceUrlInput {
+  padding-left: 82px;
+}
+
+.WorkspaceUrlIndicator {
+  pointer-events: none;
+  height: 18px;
+  width: 18px;
+  position: absolute;
+  right: var(--spacing-2);
+  border-radius: var(--radius-full);
+  top: 41px;
+  background-color: var(--color-blue-500);
+  color: var(--color-white);
+}
+
+.WorkspaceUrlIndicator[data-status='taken'] {
+  background-color: var(--color-critical-600);
+  color: var(--color-white);
+}
+
+.WorkspaceUrlIndicator .Icon {
+  width: 12px;
+}

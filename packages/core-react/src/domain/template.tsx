@@ -1,9 +1,10 @@
 import { BasicUpdater, Unit, unit } from '@align/core'
 import { BasicFunc } from '@align/core/src/func'
+import React from 'react'
 
-export type View<context, state, foreignMutations, embeddedChildren = Unit> = (
-  props: HeadlessTemplateProps<context, state, foreignMutations> & embeddedChildren
-) => JSX.Element
+export type View<Context, State, ForeignMutations, EmbeddedChildren = Unit> = React.FC<
+  HeadlessTemplateProps<Context, State, ForeignMutations> & EmbeddedChildren
+>
 
 export type HeadlessTemplateProps<context, state, foreignMutations> = {
   context: context

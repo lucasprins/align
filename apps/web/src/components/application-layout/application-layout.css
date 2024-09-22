@@ -23,7 +23,7 @@
 }
 
 /* WorkspaceSelector  */
-.WorkspaceSelector {
+.WorkspaceSelectorTrigger {
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -36,15 +36,15 @@
   border-radius: var(--radius-lg);
 }
 
-.WorkspaceSelector:hover {
+.WorkspaceSelectorTrigger:hover {
   background-color: var(--color-black-A1);
 }
 
-.WorkspaceSelector:focus {
+.WorkspaceSelectorTrigger:focus {
   outline: none;
 }
 
-[data-theme='dark'] .WorkspaceSelector:hover {
+[data-theme='dark'] .WorkspaceSelectorTrigger:hover {
   background-color: var(--color-white-A1);
 }
 
@@ -103,6 +103,11 @@
   flex-shrink: 0;
   width: 14px;
   color: var(--color-gray-500);
+}
+
+.WorkspaceSelectorContent .ActiveWorkspaceIndicator {
+  right: var(--spacing-4);
+  position: absolute;
 }
 
 /* Navigation */

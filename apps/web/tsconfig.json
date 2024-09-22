@@ -13,12 +13,9 @@
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
 
-    // path alias
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"],
-      "@domains/*": ["./src/domains/*"],
-      "@lib/*": ["./src/lib/*"]
+      "#/*": ["./src/*"]
     }
   },
   "include": ["src"]

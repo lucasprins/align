@@ -1,8 +1,8 @@
 import { RegisterPayload, RegistrationResult } from '@align/api-types'
 import { Maybe } from '@align/core'
 
-import { AuthenticationEndpoints } from '@/domains/authentication/authentication.api'
-import { getEndpointUrl } from '@/lib/api'
+import { AuthenticationEndpoints } from '#/domains/authentication/authentication.api'
+import { getEndpointUrl } from '#/lib/api'
 
 export const register = async (payload: RegisterPayload): Promise<Maybe<RegistrationResult>> => {
   try {

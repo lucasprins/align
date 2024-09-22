@@ -1,4 +1,4 @@
-import { getEndpointUrl } from '@/lib/api'
+import { getEndpointUrl } from '#/lib/api'
 import { AuthenticationEndpoints } from '../authentication.api'
 
 export default async function logout(): Promise<boolean> {

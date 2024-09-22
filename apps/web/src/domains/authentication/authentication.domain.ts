@@ -1,46 +1,39 @@
+import { LoginPayload, User } from '@align/api-types'
+import { View } from '@align/core-react'
+
 import {
   AsyncState,
-  Debounced,
   ForeignMutationsInput,
   FormState,
-  Just,
   Maybe,
   propertyUpdater,
   replaceWith,
   Synchronized,
   Unit,
   Updater,
-  Value,
 } from '@align/core'
 
-import { LoginPayload, User } from '@align/api-types'
-import { View } from '@align/core-react'
-
-import { CreateWorkspaceForm, LoginForm } from './authentication.types'
+import { LoginForm } from './authentication.types'
 import { Registration } from './domains/registration/registration.domain'
+import { WorkspaceCreation } from './domains/workspace-creation/domain'
 
-type Authentication = {
+export type Authentication = {
   readonly user: Synchronized<LoginPayload, Maybe<User>>
   readonly logout: Synchronized<Unit, boolean>
   readonly loginForm: FormState<LoginForm>
-  readonly createWorkspaceForm: FormState<CreateWorkspaceForm>
 
   readonly registration: Registration
+  readonly workspaceCreation: WorkspaceCreation
 }
 
-const Authentication = {
+export const Authentication = {
   Default: (): Authentication => ({
     user: Synchronized.Default({ email: '', password: '', rememberMe: true }, AsyncState.loading()),
     logout: Synchronized.Default(false),
     loginForm: FormState.Default.idle({ email: '', password: '', rememberMe: true }),
-    createWorkspaceForm: FormState.Default.idle({
-      name: '',
-      url: Debounced.Default(Synchronized.Default(Value.Default(''))),
-      companySize: '',
-      role: '',
-    }),
 
-    registration: Registration.default(),
+    registration: Registration.Default(),
+    workspaceCreation: WorkspaceCreation.Default(),
   }),
 
   Updaters: {
@@ -48,25 +41,14 @@ const Authentication = {
       user: propertyUpdater<Authentication>()('user'),
       logout: propertyUpdater<Authentication>()('logout'),
       loginForm: propertyUpdater<Authentication>()('loginForm'),
-      createWorkspaceForm: propertyUpdater<Authentication>()('createWorkspaceForm'),
 
       registration: propertyUpdater<Authentication>()('registration'),
+      workspaceCreation: propertyUpdater<Authentication>()('workspaceCreation'),
     },
 
     Template: {
       logout: (): Updater<Authentication> => {
         return Authentication.Updaters.Core.logout(Synchronized.Updaters.sync(AsyncState.toLoading()))
-      },
-
-      updateWorkspaceFormUrl: (url: string): Updater<Authentication> => {
-        return Authentication.Updaters.Core.createWorkspaceForm((form) => {
-          return FormState.Updaters.field<CreateWorkspaceForm>()(
-            'url',
-            Debounced.Updaters.Template.value(
-              Synchronized.Updaters.value<Value<string>, boolean>(Value.Updaters.value(replaceWith(url)))
-            )(form.values.url)
-          )(form)
-        })
       },
 
       validateLoginForm: (): Updater<Authentication> => {
@@ -97,7 +79,7 @@ const Authentication = {
     getUser: (user: Authentication['user']): Maybe<User> => {
       return AsyncState.isLoaded(user.sync) ? user.sync.value : Maybe.nothing()
     },
-    isLoginFailed: (authentication: Authentication) => {
+    hasLoginFailed: (authentication: Authentication) => {
       return (
         FormState.Assert.isSubmitted(authentication.loginForm) &&
         AsyncState.isLoaded(authentication.user.sync) &&
@@ -113,6 +95,7 @@ const Authentication = {
           Synchronized.Updaters.sync(() => AsyncState.loaded<Maybe<User>>(Maybe.just(user)))
         )
       ),
+    logout: () => input.setState(Authentication.Updaters.Template.logout()),
   }),
 }
 
@@ -128,5 +111,3 @@ export type AuthenticationView = View<
   AuthenticationForeignMutationsExpected,
   {}
 >
-
-export { Authentication }

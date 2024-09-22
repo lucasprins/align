@@ -1,6 +1,5 @@
 import { login } from './api/login'
 import logout from './api/logout'
-import { validateWorkspaceUrl } from './api/validate-workspace-url'
 
 export const AuthenticationEndpoints = {
   login: '/auth/login',
@@ -11,5 +10,4 @@ export const AuthenticationEndpoints = {
 export const AuthenticationAPI = {
   login,
   logout,
-  validateWorkspaceUrl,
 }
