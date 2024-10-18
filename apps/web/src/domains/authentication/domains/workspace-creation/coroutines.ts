@@ -11,7 +11,7 @@ export const WorkspaceCreationCreateWorkspaceRunner = Co.Template<WorkspaceCreat
   createWorkspace,
   {
     interval: 15,
-    runFilter: (props) => AsyncState.isLoading(props.context.result.sync),
+    runFilter: ({ context }) => AsyncState.isLoading(context.result.sync),
   }
 )
 
@@ -19,8 +19,8 @@ export const WorkspaceCreationWorkspaceUrlValidationRunner = Co.Template<Workspa
   workspaceUrlValidation,
   {
     interval: 10,
-    runFilter: (props) =>
-      Debounced.Operations.shouldCoroutineRun(props.context.form.values.url) && !!props.context.form.values.url.value,
+    runFilter: ({ context }) =>
+      Debounced.Operations.shouldCoroutineRun(context.form.values.url) && !!context.form.values.url.value,
   }
 )
 
@@ -28,7 +28,7 @@ export const WorkspaceCreationValidateFormRunner = Co.Template<WorkspaceCreation
   createWorkspaceFormValidation,
   {
     interval: 15,
-    runFilter: (props) => FormState.Assert.isValidating(props.context.form),
+    runFilter: ({ context }) => FormState.Assert.isValidating(context.form),
   }
 )
 
@@ -36,6 +36,6 @@ export const WorkspaceCreationSubmitFormRunner = Co.Template<WorkspaceCreationFo
   createWorkspaceFormSubmission,
   {
     interval: 15,
-    runFilter: (props) => FormState.Assert.isSubmitting(props.context.form),
+    runFilter: ({ context }) => FormState.Assert.isSubmitting(context.form),
   }
 )

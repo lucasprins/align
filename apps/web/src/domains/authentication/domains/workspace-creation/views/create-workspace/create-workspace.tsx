@@ -1,4 +1,3 @@
-import { AsyncState, Maybe } from '@align/core'
 import { Form, FormField } from '@align/core-react'
 import React from 'react'
 import { Redirect } from 'wouter'
@@ -32,18 +31,14 @@ import { AuthFullscreen } from '#/domains/authentication/components/auth-full-sc
 import { DashedLines } from '#/domains/authentication/components/dashed-lines/dashed-lines'
 import { routes } from '#/lib/routes'
 import { WorkspaceCreation, WorkspaceCreationView } from '../../domain'
+import { requireWorkspaceCreated } from '../../utils'
 import { WorkspaceUrlIndicatorProps } from './create-workspace-props'
 
 import './create-workspace.css'
+import { useTheme } from '#/lib/theme'
 
 const CreateWorkspace: WorkspaceCreationView = ({ context, setState, foreignMutations }) => {
-  if (
-    AsyncState.isLoaded(context.result.sync) &&
-    Maybe.isJust(context.result.sync.value) &&
-    context.result.sync.value.value.isSuccess
-  ) {
-    const result = context.result.sync.value.value
-
+  const maybeRedirect = requireWorkspaceCreated(context, (result) => {
     if (result.user) {
       foreignMutations.login(result.user)
       return <Redirect to={routes.workspace.inbox(result.workspace.url)} />
@@ -51,13 +46,15 @@ const CreateWorkspace: WorkspaceCreationView = ({ context, setState, foreignMuta
       window.location.reload()
       return <Redirect to={routes.auth.login} />
     }
-  }
+  })
 
-  return <CreateWorkspaceView context={context} setState={setState} foreignMutations={foreignMutations} />
+  return (
+    maybeRedirect || <CreateWorkspaceView context={context} setState={setState} foreignMutations={foreignMutations} />
+  )
 }
 
 const CreateWorkspaceView: WorkspaceCreationView = ({ context, setState }) => {
-  // const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const handleSubmitForm = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -188,13 +185,13 @@ const CreateWorkspaceView: WorkspaceCreationView = ({ context, setState }) => {
                     Create workspace
                   </Button>
 
-                  {/* <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('light')}>
+                  <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('light')}>
                     Light
                   </Button>
 
                   <Button type="button" variant="dark__white" fullWidth onClick={() => setTheme('dark')}>
                     Dark
-                  </Button> */}
+                  </Button>
                 </Flex>
               </form>
             )}

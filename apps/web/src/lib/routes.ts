@@ -12,8 +12,8 @@ export const routes = {
         index: `/${workspace}/settings`,
 
         account: {
-          profile: `${workspace}/settings/account/profile`,
-          preferences: `${workspace}/settings/account/preferences`,
+          profile: `/${workspace}/settings/account/profile`,
+          preferences: `/${workspace}/settings/account/preferences`,
         },
       }
     },

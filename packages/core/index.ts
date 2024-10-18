@@ -1,5 +1,6 @@
 export * from './src/api-result'
 export * from './src/func'
+export * from './src/http'
 export * from './src/identity'
 export * from './src/unit'
 export * from './src/value'

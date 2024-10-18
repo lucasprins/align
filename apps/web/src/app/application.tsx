@@ -1,7 +1,7 @@
 import { User } from '@align/api-types'
-import { unit } from '@align/core'
+import { AsyncState, Maybe, unit } from '@align/core'
 import React from 'react'
-import { Route, Router, Switch } from 'wouter'
+import { Redirect, Route, Router, Switch } from 'wouter'
 
 import {
   AuthenticationLoginRunner,
@@ -22,6 +22,7 @@ import CreateWorkspace from '#/domains/authentication/domains/workspace-creation
 import { Login } from '#/domains/authentication/views/login/login'
 import { getWorkspaceRedirectUrl } from '#/lib/user'
 import PageNotFound from './404'
+import { routes } from '#/lib/routes'
 
 export const Application = () => {
   const [authentication, setAuthentication] = React.useState(Authentication.Default())
@@ -68,6 +69,16 @@ export const Application = () => {
 
       <Router>
         <Switch>
+          <Route path="/">
+            {() => {
+              if (AsyncState.isLoaded(authentication.user.sync) && Maybe.isJust(authentication.user.sync.value)) {
+                return <Redirect to={getWorkspaceRedirectUrl(authentication.user.sync.value.value)} />
+              } else {
+                return <Redirect to={routes.auth.login} />
+              }
+            }}
+          </Route>
+
           <Route path="/login">
             {() => (
               <UnauthenticatedRoute user={authentication.user.sync} redirectUrl={getWorkspaceRedirectUrl}>
@@ -108,7 +119,7 @@ export const Application = () => {
             )}
           </Route>
 
-          <Route path="/:workspace/inbox">
+          <Route path="/:workspace/inbox/*?">
             {(params) => (
               <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
@@ -118,7 +129,7 @@ export const Application = () => {
             )}
           </Route>
 
-          <Route path="/:workspace/issues">
+          <Route path="/:workspace/issues/*?">
             {(params) => (
               <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
@@ -128,7 +139,7 @@ export const Application = () => {
             )}
           </Route>
 
-          <Route path="/:workspace/projects">
+          <Route path="/:workspace/projects/*?">
             {(params) => (
               <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
@@ -138,7 +149,7 @@ export const Application = () => {
             )}
           </Route>
 
-          <Route path="/:workspace/cycles">
+          <Route path="/:workspace/cycles/*?">
             {(params) => (
               <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (
@@ -148,7 +159,7 @@ export const Application = () => {
             )}
           </Route>
 
-          <Route path="/:workspace/teams">
+          <Route path="/:workspace/teams/*?">
             {(params) => (
               <AuthenticatedRoute user={authentication.user.sync} workspaceUrl={params.workspace}>
                 {(user) => (

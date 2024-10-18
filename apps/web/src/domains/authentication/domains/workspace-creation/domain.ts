@@ -6,7 +6,7 @@ import {
   Debounced,
   ForeignMutationsInput,
   FormState,
-  Maybe,
+  HttpResult,
   propertyUpdater,
   replaceWith,
   Synchronized,
@@ -18,25 +18,25 @@ import {
 import { WorkspaceCreationForm, WorkspaceUrlAvailability } from './types'
 
 export type WorkspaceCreation = {
+  readonly result: Synchronized<CreateWorkspacePayload, HttpResult<CreateWorkspaceResult>>
   readonly form: FormState<WorkspaceCreationForm>
-  readonly result: Synchronized<CreateWorkspacePayload, Maybe<CreateWorkspaceResult>>
 }
 
 export const WorkspaceCreation = {
   Default: (): WorkspaceCreation => ({
+    result: Synchronized.Default({ name: '', url: '', companySize: '', role: '' }),
     form: FormState.Default.idle<WorkspaceCreationForm>({
       name: '',
       url: Debounced.Default(Synchronized.Default(Value.Default(''))),
       companySize: '',
       role: '',
     }),
-    result: Synchronized.Default({ name: '', url: '', companySize: '', role: '' }),
   }),
 
   Updaters: {
     Core: {
-      form: propertyUpdater<WorkspaceCreation>()('form'),
       result: propertyUpdater<WorkspaceCreation>()('result'),
+      form: propertyUpdater<WorkspaceCreation>()('form'),
     },
 
     Template: {
@@ -92,7 +92,7 @@ export const WorkspaceCreation = {
       return (
         FormState.Assert.isSubmitted(context.form) &&
         AsyncState.isLoaded(context.result.sync) &&
-        (Maybe.isNothing(context.result.sync.value) || context.result.sync.value.value.isSuccess === false)
+        (!HttpResult.isSuccess(context.result.sync.value) || context.result.sync.value.value.isSuccess === false)
       )
     },
 
@@ -100,7 +100,7 @@ export const WorkspaceCreation = {
       return (
         FormState.Assert.isSubmitted(context.form) &&
         AsyncState.isLoaded(context.result.sync) &&
-        Maybe.isJust(context.result.sync.value) &&
+        HttpResult.isSuccess(context.result.sync.value) &&
         context.result.sync.value.value.isSuccess === false
       )
     },

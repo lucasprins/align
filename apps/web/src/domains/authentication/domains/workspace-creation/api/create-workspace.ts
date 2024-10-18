@@ -1,10 +1,10 @@
 import { CreateWorkspacePayload, CreateWorkspaceResult } from '@align/api-types'
-import { Maybe } from '@align/core'
+import { HttpResult } from '@align/core'
 
-import { WorkspaceCreationEndpoints } from '../api'
 import { getEndpointUrl } from '#/lib/api'
+import { WorkspaceCreationEndpoints } from '../api'
 
-export const createWorkspace = async (payload: CreateWorkspacePayload): Promise<Maybe<CreateWorkspaceResult>> => {
+export const createWorkspace = async (payload: CreateWorkspacePayload): Promise<HttpResult<CreateWorkspaceResult>> => {
   const { method, path } = WorkspaceCreationEndpoints.createWorkspace
 
   try {
@@ -18,9 +18,10 @@ export const createWorkspace = async (payload: CreateWorkspacePayload): Promise<
     })
 
     if (response.ok) {
-      return Maybe.just((await response.json()) as CreateWorkspaceResult)
+      const json = (await response.json()) as CreateWorkspaceResult
+      return HttpResult.success(json, response.status)
     }
   } catch (error) {}
 
-  return Maybe.nothing()
+  return HttpResult.failed()
 }
